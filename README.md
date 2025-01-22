@@ -1,32 +1,17 @@
-# Template
+# Wildduck-docs
+> The official repository for Wildduck Mail Server documentation  
+> *powered by Docusaurus*
 
-This template is built for [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
 
-### Usage
-
+### Generating the MDX files required for OpenApi plugin to work
 ```bash
-npx create-docusaurus@3.5.2 my-website --package-manager yarn
-```
-
-> When prompted to select a template choose `Git repository`.
-
-Template Repository URL:
-
-```bash
-https://github.com/PaloAltoNetworks/docusaurus-template-openapi-docs.git
-```
-
-> When asked how the template repo should be cloned choose "copy" (unless you know better).
-
-```bash
-cd my-website
-yarn
+npm run gen-api-docs all
 ```
 
 ### Local Development
 
 ```bash
-yarn start
+npm run start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
@@ -34,7 +19,17 @@ This command starts a local development server and opens up a browser window. Mo
 ### Build
 
 ```bash
-yarn build
+npm run build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
+
+### Cleaning up
+If you wish to completely clean the generated docs:
+1. Delete generated folder in `/docs`.
+2. Run `npm run clean-api-docs all`  
+
+After that you can regenerate the MDX files safely.
+
+
+> *Copyright Zone Media*
