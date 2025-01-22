@@ -5,23 +5,26 @@ import Heading from '@theme/Heading';
 
 const FeatureList = [
     {
-        title: 'Easy to Use',
+        title: 'Universal support',
         Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-        description: <>Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.</>
+        description: (
+            <>Wildduck Mail Server is supported by all majors platforms and does not require any compiling. If the system has NodeJS - it can run Wildduck! </>
+        )
     },
     {
-        title: 'Focus on What Matters',
+        title: 'Ease of use',
         Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
         description: (
             <>
-                Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go ahead and move your docs into the <code>docs</code> directory.
+                Wildduck is easy to set up and use! Every setting can be configured and you can manage users, mailboxes, messages and everything else via a
+                simple HTTP API!
             </>
         )
     },
     {
-        title: 'Powered by React',
+        title: 'Modern IMAP/POP3',
         Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-        description: <>Extend or customize your website layout by reusing React. Docusaurus can be extended while reusing the same header and footer.</>
+        description: <>Wildduck supports almost all modern IMAP and POP3 features, while being fast and scalable! All unicode email addresses as supported.</>
     }
 ];
 

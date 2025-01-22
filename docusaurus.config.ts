@@ -116,6 +116,10 @@ const config: Config = {
                 href: "https://github.com/nodemailer/wildduck",
                 label: "Wildduck GitHub"
               },
+              {
+                href: "https://github.com/nodemailer/nodemailer",
+                label: "Nodemailer GitHub"
+              },
             ],
           },
         ],
