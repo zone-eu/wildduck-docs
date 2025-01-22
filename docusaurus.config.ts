@@ -100,8 +100,8 @@ const config: Config = {
             title: "Community",
             items: [
               {
-                label: "Discord",
-                href: "https://discord.gg/j3fWEkjM",
+                label: "Gitter",
+                href: "https://gitter.im/nodemailer/wildduck",
               },
             ],
           },
