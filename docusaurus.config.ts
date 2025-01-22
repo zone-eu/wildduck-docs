@@ -8,8 +8,8 @@ import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
 const config: Config = {
   title: "Wildduck Mail Server",
   tagline: "WildDuck is a scalable no-SPOF IMAP/POP3 mail server",
-  url: "https://wildduck.email",
-  baseUrl: "/",
+  url: "https://zone-eu.github.io",
+  baseUrl: "/wildduck-docs/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
