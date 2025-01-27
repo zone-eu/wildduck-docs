@@ -71,13 +71,13 @@ If a messages is downloaded by a client this message gets marked as _Seen_
 
 If a messages is deleted by a client this message gets marked as Seen and moved to Trash folder
 
-# Message filtering
+## Message filtering
 
 WildDuck has built-in message filtering. This is somewhat similar to Sieve even though the filters are not scripts.
 
 Filters can be managed via the [WildDuck API](https://docs.wildduck.email/api).
 
-# IMAP Protocol Differences
+## IMAP Protocol Differences
 
 This is a list of known differences from the IMAP specification. Listed differences are either intentional or are bugs that became features.
 
@@ -97,6 +97,6 @@ This is a list of known differences from the IMAP specification. Listed differen
 
 Any other differences are most probably real bugs and unintentional.
 
-# Other Differences
+## Other Differences
 
 1. Messages retrieved from WildDuck might not be exact copies of messages that were initially stored. This mostly affects base64 encoded attachments and content in multipart mime nodes (eg. text like "This is a multi-part message in MIME format.")

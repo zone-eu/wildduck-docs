@@ -146,10 +146,10 @@ const config: Config = {
             hideSendButton: true
           } satisfies OpenApiPlugin.Options,
         } satisfies Plugin.PluginOptions,
-      },
+      }
     ],
+    require.resolve('docusaurus-lunr-search')
   ],
-
   themes: ["docusaurus-theme-openapi-docs"],
 };
 
