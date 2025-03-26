@@ -10,10 +10,10 @@ WildDuck is a modern mail server software for IMAP and POP3. Modern being scalab
 
 - **[WildDuck WebMail](https://webmail.wildduck.email/)** – is a demo server running WildDuck. You can register an account and try sending and receiving messages through the web based client or set up an IMAP client to run against that server  
   **NB! Sending emails from *wildduck.email* is disabled due to spamming. Messages are accepted for delivery both from SMTP and webmail but not sent out. Sorry.**
-- **[Source Code](https://github.com/nodemailer/wildduck)** – WildDuck source on Github
+- **[Source Code](https://github.com/zone-eu/wildduck)** – WildDuck source on Github
 - **[General documentation](https://docs.wildduck.email/)** – How to set it up and how to operate
 - **[API Documentation](https://api.wildduck.email/)** – WildDuck has a REST API to control all parts of the server
-- **[Installation instructions](https://docs.wildduck.email/#/general/install)** – to set up all required parts (WildDuck, Haraka, ZoneMTA, WildDuck Webmail) on your server.
+- **[Installation instructions](https://docs.wildduck.email/docs/general/install)** – to set up all required parts (WildDuck, Haraka, ZoneMTA, WildDuck Webmail) on your server.
 - **[Docker support](https://github.com/nodemailer/wildduck-dockerized)** – instructions for using WildDuck in Docker
 
 #### Scalable

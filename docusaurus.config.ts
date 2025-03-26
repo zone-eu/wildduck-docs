@@ -95,7 +95,7 @@ const config: Config = {
             to: "/docs/category/wildduck-api",
           },
           {
-            href: "https://github.com/nodemailer/wildduck",
+            href: "https://github.com/zone-eu/wildduck",
             label: "Wildduck GitHub",
             position: "right",
           },
@@ -138,7 +138,7 @@ const config: Config = {
               //   to: "/blog",
               // },
               {
-                href: "https://github.com/nodemailer/wildduck",
+                href: "https://github.com/zone-eu/wildduck",
                 label: "Wildduck GitHub"
               },
               {
@@ -160,10 +160,10 @@ const config: Config = {
         docsPluginId: "classic",
         config: {
           "wildduck-api": {
-            specPath: "https://raw.githubusercontent.com/nodemailer/wildduck/refs/heads/master/docs/api/openapidocs.json",
+            specPath: "https://raw.githubusercontent.com/zone-eu/wildduck/refs/heads/master/docs/api/openapidocs.json",
             outputDir: "docs/wildduck-api",
             downloadUrl:
-              "https://raw.githubusercontent.com/nodemailer/wildduck/refs/heads/master/docs/api/openapidocs.json",
+              "https://raw.githubusercontent.com/zone-eu/wildduck/refs/heads/master/docs/api/openapidocs.json",
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",

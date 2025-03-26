@@ -12,7 +12,7 @@ WildDuck itself is only an IMAP and POP3 server, with simple LMTP support if nee
 ### Scripted install
 If you have a blank VPS and a free domain name that you can point to that VPS than you can try out the scripted all-included install
 
-[Installation instructions](https://github.com/nodemailer/wildduck/tree/master/setup)
+[Installation instructions](https://github.com/zone-eu/wildduck/tree/master/setup)
 
 Install script installs and configures all required dependencies and services, including Let's Encrypt based certs, to run WildDuck as a mail server.
 
@@ -34,7 +34,7 @@ Assuming you have MongoDB and Redis running somewhere.
 #### Step 1\. Get the code from github
 
 ```
-$ git clone https://github.com/nodemailer/wildduck.git
+$ git clone https://github.com/zone-eu/wildduck.git
 $ cd wildduck
 ```
 
@@ -48,7 +48,7 @@ $ npm install --production
 
 #### Step 3\. Run the server
 
-To use the [default config](https://github.com/nodemailer/wildduck/blob/master/config/default.toml) file, run the following:
+To use the [default config](https://github.com/zone-eu/wildduck/blob/master/config/default.toml) file, run the following:
 
 ```
 node server.js
@@ -61,7 +61,7 @@ values that you want to change):
 node server.js --config=/etc/wildduck.toml
 ```
 
-> For additional config options, see the _wild-config_ [documentation](https://github.com/nodemailer/wild-config).
+> For additional config options, see the _wild-config_ [documentation](https://github.com/zone-eu/wild-config).
 
 #### Step 4\. Create a user account
 
@@ -76,20 +76,20 @@ The easiest way to setup wildduck with a docker image is given below, for more d
 the [in-depth page on the Docker](in-depth/docker.md).
 
 
-A docker hub image built using the [Dockerfile](https://github.com/nodemailer/wildduck/blob/master/Dockerfile) in the repo is also available
+A GHCR image built using the [Dockerfile](https://github.com/zone-eu/wildduck/blob/master/Dockerfile) in the repo is also available
 
 To pull the latest pre-built image of wildduck:
 
 ```
-docker pull nodemailer/wildduck
+docker pull ghcr.io/zone-eu/wildduck
 ```
 
 It is also possible to pull a specific version of wildduck by specifying the version as the image tag.
-(example, for version 1.20):
+(example, for version 1.45.5):
 ```
-docker pull nodemailer/wildduck:1.20
+docker pull ghcr.io/zone-eu/wildduck:1.45.5
 ```
-To run the docker image using the [default config](https://github.com/nodemailer/wildduck/blob/master/config/default.toml), and `mongodb` and `redis` from the host machine, use:
+To run the docker image using the [default config](https://github.com/zone-eu/wildduck/blob/master/config/default.toml), and `mongodb` and `redis` from the host machine, use:
 ```
-docker run --network=host nodemailer/wildduck
+docker run --network=host ghcr.io/zone-eu/wildduck
 ```
