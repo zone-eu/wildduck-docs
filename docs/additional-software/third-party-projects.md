@@ -13,13 +13,6 @@ https://forwardemail.net
 
 Forward Email (@forwardemail) is a 100% open-source and privacy-focused email service that combines WildDuck with [an encrypted SQLite storage layer](https://forwardemail.net/blog/docs/best-quantum-safe-encrypted-email-service) and offers IMAP/POP3/SMTP/CalDAV and more.
 
-## Astzweig Docker Wildduck
-
-https://github.com/astzweig/docker-wildduck
-
-The famous nodemailer/wildduck email server as a docker container.  
-WildDuck, ZoneMTA, Haraka, rspamd in one image.
-
 ## DuckyPanel
 
 https://github.com/louis-lau/DuckyPanel

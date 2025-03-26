@@ -21,3 +21,30 @@
   align-items: center;
   justify-content: center;
 }
+
+.index-markdown header h1 {
+  font-size: 2.25rem;
+}
+
+.index-markdown p {
+  font-size: 1.125rem;
+}
+
+.index-markdown ul li {
+  font-size: 1.125rem;
+}
+
+.index-markdown blockquote {
+  border-width: 2px;
+  border-color: #0073aa;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.index-markdown ul {
+  padding-left: 0.75rem;
+}
+
+.index-markdown h4 {
+  font-size: 1.5rem;
+}
