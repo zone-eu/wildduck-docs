@@ -19,6 +19,31 @@ const config: Config = {
   organizationName: "zone-eu", // Usually your GitHub org/user name.
   projectName: "wildduck-docs", // Usually your repo name.
 
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'anonymous',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap',
+        rel: 'stylesheet',
+      },
+    },
+  ],
+
   presets: [
     [
       "classic",
