@@ -36,7 +36,7 @@
 
 .index-markdown blockquote {
   border-width: 2px;
-  border-color: #0073aa;
+  border-color: var(--ifm-color-primary);
   padding-top: 0;
   padding-bottom: 0;
 }
