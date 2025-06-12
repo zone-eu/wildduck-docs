@@ -6,6 +6,10 @@ on:
     push:
         branches: [main]
 
+    # To keep the documentation up-to-date
+    schedule:
+        - cron: '0 10 1 * *' # 10 AM UTC on 1st of every month
+
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
