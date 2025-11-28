@@ -8,7 +8,7 @@ const FeatureList = [
         title: 'Universal support',
         Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
         description: (
-            <>Wildduck Mail Server is supported by all majors platforms and does not require any compiling. If the system has NodeJS - it can run Wildduck! </>
+            <>Wildduck Mail Server is supported by all major platforms and does not require any compiling. If the system has NodeJS - it can run Wildduck! </>
         )
     },
     {
