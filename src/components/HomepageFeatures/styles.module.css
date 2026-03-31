@@ -1,11 +1,119 @@
-.features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+.callout {
+  padding: 2rem 0 0.5rem;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.calloutText {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  text-align: center;
+  color: var(--ifm-color-emphasis-800);
+  margin: 0;
+}
+
+.features {
+  padding: 2rem 0;
+}
+
+.featureCard {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.featureImageWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.featureImage {
+  height: 120px;
+  width: auto;
+}
+
+.featureCard h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.featureCard p {
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 0;
+}
+
+.demoImage {
+  height: 140px;
+  width: auto;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.quickLinks {
+  padding: 2rem 0;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.quickLink {
+  display: block;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.quickLink:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: inherit;
+}
+
+.quickLinkInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quickLinkInner strong {
+  font-size: 1rem;
+  color: var(--ifm-color-primary-darkest);
+}
+
+.quickLinkInner span {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.demo {
+  padding: 2rem 0;
+}
+
+.demo p {
+  font-size: 1.05rem;
+}
+
+.smallNote {
+  font-size: 0.875rem !important;
+  color: var(--ifm-color-emphasis-600);
+  font-style: italic;
+}
+
+.contact {
+  padding: 1rem 0 2rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.contact p {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
 }

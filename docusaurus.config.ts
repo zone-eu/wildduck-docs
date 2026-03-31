@@ -84,7 +84,7 @@ const config: Config = {
         items: [
           {
             type: "doc",
-            docId: "intro",
+            docId: "getting-started/introduction",
             position: "left",
             label: "Documentation",
           },
@@ -108,8 +108,12 @@ const config: Config = {
             title: "Docs",
             items: [
               {
-                label: "General",
-                to: "/docs/intro",
+                label: "Introduction",
+                to: "/docs/getting-started/introduction",
+              },
+              {
+                label: "Architecture",
+                to: "/docs/architecture/overview",
               },
               {
                 label: "HTTP API",
@@ -117,17 +121,8 @@ const config: Config = {
               },
               {
                 label: "FAQ",
-                to: "/docs/general/faq",
+                to: "/docs/getting-started/faq",
               }
-            ],
-          },
-          {
-            title: "Community",
-            items: [
-              {
-                label: "Gitter",
-                href: "https://gitter.im/nodemailer/wildduck",
-              },
             ],
           },
           {
@@ -149,6 +144,11 @@ const config: Config = {
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Zone Media. Built with Docusaurus.`,
+      },
+      algolia: {
+        appId: '853XRKQSZS',
+        apiKey: '52410ab8eb20ba296c2e8f8995a3398f',
+        indexName: 'WildDuck docs',
       },
     } satisfies Preset.ThemeConfig,
 
@@ -173,7 +173,36 @@ const config: Config = {
         } satisfies Plugin.PluginOptions,
       }
     ],
-    require.resolve('docusaurus-lunr-search')
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          { from: "/docs/intro", to: "/docs/getting-started/introduction" },
+          { from: "/docs/general/features", to: "/docs/getting-started/features" },
+          { from: "/docs/general/install", to: "/docs/getting-started/installation" },
+          { from: "/docs/general/faq", to: "/docs/getting-started/faq" },
+          { from: "/docs/general/migration-guide", to: "/docs/ecosystem/migration-guide" },
+          { from: "/docs/api-general/api-error-codes", to: "/docs/api/error-codes" },
+          { from: "/docs/additional-software/haraka-plugin", to: "/docs/architecture/inbound-smtp" },
+          { from: "/docs/additional-software/wildduck-mta", to: "/docs/architecture/outbound-smtp" },
+          { from: "/docs/additional-software/rspamd", to: "/docs/architecture/spam-filtering" },
+          { from: "/docs/additional-software/webmail", to: "/docs/ecosystem/webmail" },
+          { from: "/docs/additional-software/auditing", to: "/docs/ecosystem/auditing" },
+          { from: "/docs/additional-software/import-maildir", to: "/docs/ecosystem/import-export" },
+          { from: "/docs/additional-software/third-party-projects", to: "/docs/ecosystem/third-party-projects" },
+          { from: "/docs/in-depth/security", to: "/docs/security/overview" },
+          { from: "/docs/in-depth/roles", to: "/docs/security/access-tokens" },
+          { from: "/docs/in-depth/operating-wildduck", to: "/docs/operations/operating-wildduck" },
+          { from: "/docs/in-depth/docker", to: "/docs/operations/docker" },
+          { from: "/docs/in-depth/acme-certificates", to: "/docs/operations/certificates" },
+          { from: "/docs/in-depth/default-values", to: "/docs/operations/default-values" },
+          { from: "/docs/in-depth/retention-policies", to: "/docs/operations/retention-policies" },
+          { from: "/docs/in-depth/command-line", to: "/docs/operations/command-line" },
+          { from: "/docs/in-depth/protocol-support", to: "/docs/concepts/protocol-support" },
+          { from: "/docs/in-depth/attachment-deduplication", to: "/docs/concepts/attachment-deduplication" },
+        ],
+      },
+    ],
   ],
   themes: ["docusaurus-theme-openapi-docs"],
 };
