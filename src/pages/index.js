@@ -6,8 +6,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
-import MDXContent from '@theme/MDXContent';
-import MyMarkdown from './main-page.md';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -21,8 +19,8 @@ function HomepageHeader() {
                 </Heading>
                 <p className="hero__subtitle">{siteConfig.tagline}</p>
                 <div className={styles.buttons}>
-                    <Link className="button button--secondary button--lg" to="/docs/intro">
-                        Wildduck Email Server - Intro
+                    <Link className="button button--secondary button--lg" to="/docs/getting-started/introduction">
+                        Get Started
                     </Link>
                 </div>
             </div>
@@ -37,15 +35,6 @@ export default function Home() {
             <HomepageHeader />
             <main>
                 <HomepageFeatures />
-                <div className="container">
-                    <div className="row">
-                        <div className={clsx('col col--9 mt-2 margin-vert--lg', styles['index-markdown'])}>
-                            <MDXContent>
-                                <MyMarkdown />
-                            </MDXContent>
-                        </div>
-                    </div>
-                </div>
             </main>
         </Layout>
     );
