@@ -74,6 +74,13 @@ If a messages is downloaded by a client this message gets marked as _Seen_
 
 If a messages is deleted by a client this message gets marked as Seen and moved to Trash folder
 
+## SMTP and LMTP Support
+
+WildDuck's supported message submission path for normal deployments is SMTP through ZoneMTA and the `zonemta-wildduck` plugin.
+
+LMTP (Local Mail Transfer Protocol) is also supported, but only for local test environments. It is reserved exclusively for local testing and should not be
+used as a public-facing or production submission protocol.
+
 ## IMAP Protocol Differences
 
 This is a list of known differences from the IMAP specification. Listed differences are either intentional or are bugs that became features.

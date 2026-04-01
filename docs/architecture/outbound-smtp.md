@@ -10,6 +10,9 @@ title: Outbound SMTP (ZoneMTA)
 
 WildDuck uses [ZoneMTA](https://github.com/zone-eu/zone-mta) with the [zonemta-wildduck](https://github.com/nodemailer/zonemta-wildduck) plugin as its outbound SMTP server. ZoneMTA handles message submission from users and delivery to external mail servers.
 
+WildDuck also supports LMTP for local test setups, but this is reserved exclusively for local testing. For normal deployments and public-facing message
+submission, use SMTP through ZoneMTA.
+
 ## Role in the Mail Suite
 
 ZoneMTA serves as both the **MSA** (Mail Submission Agent) and the **MTA** (Mail Transfer Agent):
