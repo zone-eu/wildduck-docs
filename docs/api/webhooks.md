@@ -63,6 +63,7 @@ Every delivered webhook payload includes these top-level fields:
 Notes:
 
 - Top-level MongoDB `ObjectId` values are serialized to 24-char hex strings before queueing.
+- Webhook subscriptions can match exact event names, `*`, or namespace wildcards like `user.*` and `user.delete.*`.
 - The payload reference below reflects the webhook payloads emitted by this checkout of WildDuck.
 - `mfa.webauthn.removed` is intended to exist, but in this checkout it is broken by a constant name typo in `lib/events.js` and does not currently deliver.
 
@@ -252,7 +253,7 @@ Returned data:
 | `user` | string |
 | `filter` | string |
 
-### `forward added`
+### `forward.added`
 
 Returned data:
 
@@ -262,6 +263,8 @@ Returned data:
 | `type` | string | `user` or `filter`. |
 | `target` | string | Forward target value. |
 | `filter` | string | Present only when `type` is `filter`. |
+
+When `type` is `filter`, `filter` is the filter id as a string.
 
 ### `mailbox.created`
 
@@ -312,6 +315,43 @@ Returned data:
 | `date` | string | ISO timestamp from internal message date. |
 | `verificationResults` | object | Optional authentication verification details. |
 | `bimi` | object | Optional BIMI details when available. |
+
+`from` fields:
+
+| Field | Type |
+| --- | --- |
+| `name` | string |
+| `address` | string |
+
+`to`, `cc`, and `bcc` array item fields:
+
+| Field | Type |
+| --- | --- |
+| `name` | string |
+| `address` | string |
+
+`verificationResults` fields:
+
+| Field | Type |
+| --- | --- |
+| `tls` | object or boolean |
+| `spf` | string or boolean |
+| `dkim` | string or boolean |
+| `dmarc` | object |
+
+`verificationResults.tls` fields when present as an object:
+
+| Field | Type |
+| --- | --- |
+| `name` | string |
+| `version` | string |
+
+`verificationResults.dmarc` fields:
+
+| Field | Type |
+| --- | --- |
+| `domain` | string or boolean |
+| `policy` | string |
 
 `bimi` fields when present:
 
@@ -423,6 +463,12 @@ Returned data:
 | `deleteAfter` | string |
 | `task` | string |
 
+`result.addresses` fields:
+
+| Field | Type |
+| --- | --- |
+| `deleted` | number |
+
 ### `user.delete.completed`
 
 Returned data:
@@ -445,6 +491,41 @@ Returned data:
 | `task` | string |
 
 These nested objects typically contain counters like `deleted`, and on partial failures may include `error`.
+
+`result.mailboxes` fields:
+
+| Field | Type |
+| --- | --- |
+| `deleted` | number |
+| `error` | string |
+
+`result.filters` fields:
+
+| Field | Type |
+| --- | --- |
+| `deleted` | number |
+| `error` | string |
+
+`result.autoreplies` fields:
+
+| Field | Type |
+| --- | --- |
+| `deleted` | number |
+| `error` | string |
+
+`result.addressregister` fields:
+
+| Field | Type |
+| --- | --- |
+| `deleted` | number |
+| `error` | string |
+
+`result.messages` fields:
+
+| Field | Type |
+| --- | --- |
+| `deleted` | number |
+| `error` | string |
 
 ### `user.delete.cancelled`
 
