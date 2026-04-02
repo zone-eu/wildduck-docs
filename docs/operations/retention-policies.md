@@ -19,7 +19,7 @@ Once retention time is reached, the message is deleted from database and attachm
 For example if you want to have a default retention policy of 90 days, then use `7776000000` as the retention value (90 * 24 * 3600 * 1000). If defined then this value also applies to any new folders the user creates.
 
 ```
-curl -XPOST "http://localhost:8080/user" -H 'content-type: application/json' -d '{
+curl -XPOST "http://localhost:8080/users" -H 'content-type: application/json' -d '{
   "username": "testuser",
   "password": "secretpass",
   "retention": 7776000000
@@ -30,7 +30,7 @@ You can change the retention with the [Mailbox Update](https://github.com/wilddu
 
 ### How does it work?
 
-All Wild Duck instances (this means processes) periodically try to get a [lock](https://www.npmjs.com/package/redfour) for cleaning up expired messages. If a lock is acquired then this instance starts cleanup process by creating a cursor to list all messages that have retention time set older than current time. This cursor is then used to delete expired messages one by one. This also means that a message might be available a bit longer than retention time, it is not deleted exactly the time retention time kicks in but sometime later (in most cases within a minute).
+All Wild Duck instances (this means processes) periodically try to get a [lock](https://www.npmjs.com/package/ioredfour) for cleaning up expired messages. If a lock is acquired then this instance starts cleanup process by creating a cursor to list all messages that have retention time set older than current time. This cursor is then used to delete expired messages one by one. This also means that a message might be available a bit longer than retention time, it is not deleted exactly the time retention time kicks in but sometime later (in most cases within a minute).
 
 A lot of things happen when a message is deleted:
 

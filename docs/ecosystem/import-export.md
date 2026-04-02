@@ -50,10 +50,12 @@ Multiple users can be imported in a single command:
 
 ## IMAP-based Import (mbsync)
 
-For environments where direct database access is not available, you can use [mbsync](https://isstracker.com/man/mbsync.1.html) to sync mailboxes from another IMAP server into WildDuck. This is slower than import-maildir due to IMAP protocol overhead and requires user passwords.
+For environments where direct database access is not available, you can use [mbsync](https://isstracker.com/man/mbsync.1.html "isstracker.com hosts a mirror of the mbsync man page") to sync mailboxes from another IMAP server into WildDuck. This is slower than import-maildir due to IMAP protocol overhead and requires user passwords.
 
 See the [Migration Guide](/docs/ecosystem/migration-guide) for detailed mbsync configuration examples.
 
-## MBOX Import/Export
+## Data Export/Import
 
-WildDuck supports importing and exporting messages in MBOX format through its API. This is useful for individual mailbox backup and restore operations.
+WildDuck provides API endpoints for exporting and importing account structure data (user settings, mailboxes, filters, etc.) in a binary msgpack format via `GET /data/export` and `POST /data/import`. Note that these endpoints handle account metadata only — email messages are not included in the export.
+
+MBOX export is available only for audit data via `GET /audit/:audit/export.mbox`.

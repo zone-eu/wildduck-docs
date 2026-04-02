@@ -26,8 +26,9 @@ Filters can match on message properties:
 - **Size** — message size (greater than / less than)
 - **List-ID** — mailing list identifier header
 - **Text** — full-text content match
+- **Has attachment** — whether the message has attachments
 
-Conditions support exact match, contains, starts with, and other comparison operators.
+Conditions support substring matching and regular expressions.
 
 ## Filter Actions
 
@@ -38,10 +39,9 @@ When a filter matches, one or more actions can be taken:
 | **Move to mailbox** | Deliver to a specific mailbox instead of INBOX |
 | **Forward** | Forward the message to another email address or HTTP URL |
 | **Mark as seen** | Set the `\Seen` flag on delivery |
-| **Mark as flagged** | Set the `\Flagged` flag on delivery |
-| **Mark as spam** | Route message to Junk folder |
-| **Discard** | Silently discard the message |
-| **Autoreply** | Send an automatic reply to the sender |
+| **Flag** | Set the `\Flagged` flag on delivery |
+| **Spam** | Route message to Junk Mail folder |
+| **Delete** | Do not store the matching message |
 
 ### Forwarding
 

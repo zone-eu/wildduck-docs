@@ -29,8 +29,9 @@ The request body includes:
 - **html** — HTML body
 - **headers** — Custom headers (optional)
 - **attachments** — File attachments (optional)
-- **reference** — Reference to previous messages (for replies/forwards)
-- **draft** — If true, saves as draft instead of sending
+- **reference** — Reference to previous message for replies/forwards (object with `mailbox`, `id`, and `action` fields where action is `reply`, `replyAll`, or `forward`)
+- **isDraft** — If true, saves as draft instead of sending
+- **draft** — Object referencing a previous draft to replace after sending (with `mailbox` and `id` fields)
 
 ## Attachments
 

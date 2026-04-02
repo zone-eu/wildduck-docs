@@ -12,6 +12,14 @@ WildDuck provides a per-user file storage API for managing draft attachments. Fi
 
 ## Endpoints
 
+### List Files
+
+```
+GET /users/:user/storage
+```
+
+List stored files for the user. Supports pagination and filename search. Returns file metadata including id, filename, content type, size, and creation date.
+
 ### Upload a File
 
 ```
@@ -38,7 +46,7 @@ Remove a file from storage.
 
 ## Storage Backend
 
-Files are stored in MongoDB GridFS under the `storage` bucket in the attachments database. Each file is associated with a specific user and subject to the user's storage quota.
+Files are stored in MongoDB GridFS under the `storage` bucket in the GridFS database (configurable via `dbs.gridfs`). Each file is associated with a specific user.
 
 ---
 
@@ -62,6 +70,6 @@ Checks the health of WildDuck's dependencies and returns the status.
 
 **Response:**
 - `200` with `{ success: true, version: "..." }` — all checks passed
-- `500` with `{ success: false, message: "..." }` — one or more checks failed
+- `500` with `{ success: false, version: "...", message: "..." }` — one or more checks failed
 
 Useful for load balancer health checks (HAProxy, Nginx), container orchestration (Docker, Kubernetes), and monitoring systems.

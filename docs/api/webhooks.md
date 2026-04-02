@@ -27,16 +27,14 @@ Webhooks are managed via the HTTP API:
 
 - `GET /webhooks` - List all webhook subscriptions
 - `POST /webhooks` - Register a new webhook
-- `GET /webhooks/:webhook` - Get webhook details
-- `PUT /webhooks/:webhook` - Update a webhook
 - `DELETE /webhooks/:webhook` - Delete a webhook
 
 ### Creating a Webhook
 
 When creating a webhook, specify:
 
-- **url** - The HTTP endpoint that will receive POST requests
-- **type** - Event type filter
+- **url** - The endpoint URL (supports `http://`, `https://`, `smtp://`, and `smtps://` schemes)
+- **type** - Array of event type filters
 - **user** (optional) - Limit the webhook to events for a specific user
 
 Webhook subscriptions can match:

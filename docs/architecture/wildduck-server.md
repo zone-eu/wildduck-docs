@@ -16,8 +16,8 @@ WildDuck runs the following services (each can be independently enabled/disabled
 
 | Service | Default Port | Protocol | Purpose |
 |---------|-------------|----------|---------|
-| IMAP | 993 (TLS) | IMAP4rev1 | Email client access |
-| POP3 | 995 (TLS) | POP3 | Email client access |
+| IMAP | 9993 (TLS) | IMAP4rev1 | Email client access |
+| POP3 | 9995 (TLS) | POP3 | Email client access |
 | HTTP API | 8080 | REST/JSON | Management, webmail backend |
 
 All services support TLS with SNI (Server Name Indication) for hosting multiple domains with different certificates.
@@ -77,18 +77,10 @@ WildDuck includes a task queue system backed by MongoDB and Redis distributed lo
 - **acme** / **acme-update** — ACME certificate provisioning and renewal
 - **clear-folder** — Bulk folder clearing
 - **search-apply** — Apply filters to existing messages
-- **user-indexing** — ElasticSearch indexing for a user
+- **user-indexing** — [Full-text search](/docs/concepts/full-text-search) indexing for a user
 - **restore** — User data restoration
+- **audit** — Audit data management
 - **run-migrations** — Database schema migrations
-
-## ElasticSearch Integration
-
-WildDuck optionally supports ElasticSearch for full-text message search. When enabled:
-
-- New messages are indexed in real-time via MongoDB change streams
-- Historical messages can be bulk-indexed
-- Search queries use ElasticSearch instead of MongoDB text indexes
-- The feature is gated per-user via a Redis set (`feature:indexing`)
 
 ## Key Limits
 

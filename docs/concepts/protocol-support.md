@@ -22,7 +22,7 @@ WildDuck IMAP server supports the following IMAP standards:
 -   **SPECIAL-USE** ([RFC6154](https://tools.ietf.org/html/rfc6154))
 -   **ID** ([RFC2971](https://tools.ietf.org/html/rfc2971))
 -   **MOVE** ([RFC6851](https://tools.ietf.org/html/rfc6851))
--   **AUTHENTICATE PLAIN** ([RFC4959](https://tools.ietf.org/html/rfc4959)) and **SASL-IR**
+-   **AUTHENTICATE PLAIN** ([RFC4616](https://tools.ietf.org/html/rfc4616)) and **SASL-IR** ([RFC4959](https://tools.ietf.org/html/rfc4959))
 -   **APPENDLIMIT** ([RFC7889](https://tools.ietf.org/html/rfc7889)) – maximum global allowed message size is advertised in CAPABILITY listing
 -   **UTF8=ACCEPT** ([RFC6855](https://tools.ietf.org/html/rfc6855)) – this also means that WildDuck natively supports unicode email usernames. For example
     [андрис@уайлддак.орг](mailto:андрис@уайлддак.орг) is a valid email address that is hosted by a test instance of WildDuck

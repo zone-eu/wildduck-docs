@@ -42,7 +42,7 @@ To use Rspamd with WildDuck:
 2. Enable the [haraka-plugin-rspamd](https://github.com/haraka/haraka-plugin-rspamd) in your Haraka configuration
 3. Ensure haraka-plugin-wildduck is configured to read Rspamd results
 
-The WildDuck [scripted install](https://github.com/zone-eu/wildduck/tree/master/setup) and [Docker setup](https://github.com/nodemailer/wildduck-dockerized) both include Rspamd pre-configured.
+The WildDuck [scripted install](https://github.com/zone-eu/wildduck/tree/master/setup) and [Docker setup](https://github.com/zone-eu/wildduck-dockerized) both include Rspamd pre-configured.
 
 ## Related Links
 

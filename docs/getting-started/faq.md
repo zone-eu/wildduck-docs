@@ -36,8 +36,8 @@ Here's a list of alternative email servers that also use a database for storing 
 ## How does it work?
 
 Whenever a message is received WildDuck parses it into a tree-like structure based on the MIME tree and stores this tree to MongoDB. Attachments are removed
-from the tree and stored separately in GridStore. If a message needs to be loaded then WildDuck fetches the tree structure first and, if needed, loads
-attachments from GridStore and then compiles it back into the original RFC822 message. The result should be identical to the original messages unless the
+from the tree and stored separately in GridFS. If a message needs to be loaded then WildDuck fetches the tree structure first and, if needed, loads
+attachments from GridFS and then compiles it back into the original RFC822 message. The result should be identical to the original messages unless the
 original message used unix newlines, these might be partially replaced with windows newlines.
 
 WildDuck tries to keep minimal state for sessions (basically just a list of currently known UIDs and latest MODSEQ value) to be able to distribute sessions

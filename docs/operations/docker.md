@@ -20,11 +20,6 @@ It is also possible to pull a specific version of wildduck by specifying the ver
 ```
 docker pull ghcr.io/zone-eu/wildduck:1.45.5
 ```
-## Environment variables in the Docker image
-The following docker env variables are available inside the container:
-1. `WILDDUCK_APPDIR`: The folder where wildduck is installed inside the container
-2. `WILDDUCK_CONFIG`: Path to the config file to be used with wildduck
-
 ## Running wildduck using Docker
 The image is configured to use the [default config file](https://github.com/zone-eu/wildduck/blob/master/config/default.toml)
 ```
@@ -38,7 +33,7 @@ This is likely to fail due to `mongodb` and `redis` not present in `localhost` i
     FQDN='example.com'
     MAIL_DOMAIN='mail.example.com'
     docker run \ 
-    -e APPCONF_dbs_mongo='mongodb://mongo:27017/' \
+    -e APPCONF_dbs_mongo='mongodb://mongo:27017/wildduck' \
     -e APPCONF_dbs_redis='redis://redis:6379/3' \
     -e APPCONF_smtp_setup_hostname=$FQDN \
     -e APPCONF_log_gelf_hostname=$FQDN \
