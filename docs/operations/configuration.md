@@ -106,19 +106,9 @@ graylogHostname = "127.0.0.1"
 enabled = true   # at least one server must have this enabled
 ```
 
-### ElasticSearch (`[elasticsearch]`)
+### Full-Text Search (`[elasticsearch]`)
 
-```toml
-[elasticsearch]
-enabled = false
-url = "http://127.0.0.1:9200"
-user = "elastic"
-pass = "supersecret"
-index = "wildduck"
-
-[elasticsearch.indexer]
-enabled = false   # enable the indexing worker
-```
+See the [Full-Text Search](/docs/concepts/full-text-search) page for configuration details and usage.
 
 ### Tasks (`[tasks]`)
 
@@ -225,10 +215,8 @@ See [Default Values](/docs/operations/default-values) for the web-based settings
 
 ## Reloading Configuration
 
-Send `SIGHUP` to the master process to reload TLS certificates from disk without restarting:
+Most configuration changes require a process restart. TLS certificates managed via the API or ACME are reloaded automatically without restarts.
 
-```bash
-kill -HUP $(pidof wildduck)
-```
-
-This only reloads certain settings (primarily TLS certificates). Other configuration changes require a restart.
+:::caution
+Sending `SIGHUP` to a WildDuck process generates a heap snapshot for debugging — it does **not** reload configuration or certificates.
+:::

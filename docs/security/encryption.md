@@ -38,7 +38,7 @@ Several types of sensitive data are encrypted at rest within the database:
 | Data | Cipher | Purpose |
 |------|--------|---------|
 | TOTP seeds | AES-256-GCM | Protects 2FA secrets |
-| DKIM private keys | Configurable | Protects signing keys |
-| TLS certificate private keys | Configurable | Protects server certificates |
+| DKIM private keys | AES-256-GCM | Protects signing keys |
+| TLS certificate private keys | AES-256-GCM | Protects server certificates |
 
-All encryption uses a master secret configured in the application settings, with key derivation via scrypt.
+Each data type uses a separate secret configured in its respective configuration section (`[totp]`, `[dkim]`, `[certs]`), with key derivation via scrypt. If a secret is not configured for a given type, that data is stored unencrypted.

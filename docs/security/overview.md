@@ -26,7 +26,7 @@ If 2FA is enabled then account password can only be used for the "master" scope 
 
 Application Specific Passwords are 16 byte strings, consisting of lowercase random latin characters. ASPs can include additional whitespace symbols as all whitespace symbols are removed from the password before doing any validations with it (this behavior does not extend to the account password where whitespace symbols matter). ASPs are stored as separate _asp_ entries in the users database.
 
-ASPs are hashed with pbkdf2 (same as user passwords). Additionally the 4 first symbols of the ASP are hashed with md5. This is needed to detect potential ASPs when authenticating (user password is compared against only these ASPs that have a matching md5 hash of the 4 first characters).
+ASPs are hashed with pbkdf2 (same as user passwords). Additionally, a selector value is computed from the password using SHA-1 to produce a single hex character. This is needed to detect potential ASPs when authenticating (user password is compared against only these ASPs that have a matching selector).
 
 ASPs have a scope set (an array of strings). When authenticating then the authentication only succeeds if the requested scope matches. ASP can never be used for the "master" scope, this scope is only allowed for the account password.
 

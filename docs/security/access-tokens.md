@@ -34,12 +34,12 @@ Such token is limited for API requests that are related to this specific user on
 For any other role you can use _access-tokens_ script in the bin folder.
 
 ```
-$ ./bin/access-tokens --config="/path/to/server/config.toml" provision admin root
+$ ./bin/access-tokens provision admin root
 Generated access token for admin[root]:
 3ab3a00ae63227673ab423b3be3afabe5e185b4c
 ```
 
-In this case `--config="/etc/wildduck/wildduck.toml` points to server specific configuration file, "admin" is username for the token (this is not a user account but just a name to use in access logs etc) and "root" is role. You need to use actual production config as the tokens are written to the database.
+In this case "admin" is a username for the token (this is not a user account but just a name to use in access logs etc) and "root" is the role. You need to run this from the WildDuck directory with the actual production config as the tokens are written to Redis.
 
 ### Considerations
 

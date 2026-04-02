@@ -49,16 +49,16 @@ WildDuck generates random TOTP seed tokens that are encrypted using AES-256-GCM 
 WildDuck supports WebAuthn/FIDO2 hardware security keys (e.g., YubiKey) as a second factor. This replaces the legacy U2F implementation.
 
 **Registration flow:**
-1. `POST /users/:user/2fa/webauthn/register/start` — begins FIDO2 registration, returns a challenge
+1. `POST /users/:user/2fa/webauthn/registration-challenge` — begins FIDO2 registration, returns a challenge
 2. User interacts with their security key
-3. `POST /users/:user/2fa/webauthn/register/complete` — completes registration
+3. `POST /users/:user/2fa/webauthn/registration-attestation` — completes registration
 
 **Authentication flow:**
-1. `POST /users/:user/2fa/webauthn/authenticate/start` — begins authentication challenge
+1. `POST /users/:user/2fa/webauthn/authentication-challenge` — begins authentication challenge
 2. User interacts with their security key
-3. `POST /users/:user/2fa/webauthn/authenticate/complete` — verifies the response
+3. `POST /users/:user/2fa/webauthn/authentication-assertion` — verifies the response
 
-Multiple security keys can be registered per user. Keys can be removed via `DELETE /users/:user/2fa/webauthn/:device`.
+Multiple security keys can be registered per user. Keys can be listed via `GET /users/:user/2fa/webauthn/credentials` and removed via `DELETE /users/:user/2fa/webauthn/credentials/:credential`.
 
 ### Custom 2FA
 
@@ -72,7 +72,7 @@ When 2FA is enabled, users need Application-Specific Passwords to access IMAP, P
 - 16-byte strings of lowercase random latin characters
 - Whitespace is ignored (allows formatting as groups for readability)
 - Hashed with pbkdf2 (same algorithm as user passwords)
-- The first 4 characters are MD5-hashed for fast ASP detection during login
+- A selector is computed from the password using SHA-1 for fast ASP detection during login
 - Each ASP has a defined scope (e.g., `["imap", "pop3"]`) — the "master" scope is never allowed
 - ASPs can have a TTL (time-to-live) for temporary access
 - Last-use tracking records when each ASP was last used

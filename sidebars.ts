@@ -78,6 +78,7 @@ const sidebars: SidebarsConfig = {
         'concepts/attachment-deduplication',
         'concepts/message-filtering',
         'concepts/domain-management',
+        'concepts/full-text-search',
       ],
     },
     {

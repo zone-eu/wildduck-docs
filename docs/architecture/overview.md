@@ -14,7 +14,7 @@ WildDuck is part of the Zone Mail Suite — a collection of components that toge
 
 | Component | Role | Default Port |
 |-----------|------|-------------|
-| **WildDuck** | IMAP/POP3 server + HTTP API | IMAP: 993, POP3: 995, API: 8080 |
+| **WildDuck** | IMAP/POP3 server + HTTP API | IMAP: 9993, POP3: 9995, API: 8080 |
 | **Haraka** + haraka-plugin-wildduck | Inbound SMTP (receiving mail) | 25 |
 | **ZoneMTA** + zonemta-wildduck | Outbound SMTP (sending mail) | 587 |
 | **Rspamd** | Spam filtering | 11333 |
@@ -80,12 +80,10 @@ Every component in the Zone Mail Suite is stateless and horizontally scalable:
 All data is stored in MongoDB:
 
 - **Messages**: Parsed into MIME tree structure, stored in the `messages` collection
-- **Attachments**: Deduplicated by content hash, stored in GridFS (`attachments` database)
+- **Attachments**: Deduplicated by content hash, stored in GridFS (configurable via `dbs.gridfs`)
 - **User data**: Accounts, addresses, mailboxes, filters, settings in the main `wildduck` database
 
 For performance tuning, WildDuck uses a separate database for attachments. This allows mounting a larger, cheaper disk (SATA) for attachment storage while keeping message metadata and indexes on faster storage (SSD).
-
-**Optional: ElasticSearch** can be enabled as a full-text search backend for message content, providing faster search than MongoDB's built-in text indexes.
 
 ## Redis Usage
 
@@ -95,14 +93,14 @@ Redis serves several purposes in the mail suite:
 - **Caching**: User profile cache, mailbox counters
 - **Rate limiting**: Authentication attempts, outbound recipient limits, forwarding limits
 - **2FA**: Stores temporary WebAuthn challenges and used TOTP tokens
-- **Job queues**: BullMQ-based queues for webhook delivery and ElasticSearch indexing
+- **Job queues**: BullMQ-based queues for webhook delivery and [full-text search](/docs/concepts/full-text-search) indexing
 - **Distributed locks**: Coordinates ACME certificate operations across instances
 
 ## Related Repositories
 
 - [WildDuck](https://github.com/zone-eu/wildduck) — Core IMAP/POP3/API server
 - [Haraka](https://github.com/haraka/Haraka) — SMTP server framework
-- [haraka-plugin-wildduck](https://github.com/nodemailer/haraka-plugin-wildduck) — Haraka plugin for WildDuck integration
+- [haraka-plugin-wildduck](https://github.com/zone-eu/haraka-plugin-wildduck) — Haraka plugin for WildDuck integration
 - [ZoneMTA](https://github.com/zone-eu/zone-mta) — Outbound SMTP relay
-- [zonemta-wildduck](https://github.com/nodemailer/zonemta-wildduck) — ZoneMTA plugin for WildDuck integration
-- [wildduck-dockerized](https://github.com/nodemailer/wildduck-dockerized) — Docker Compose setup for the full suite
+- [zonemta-wildduck](https://github.com/zone-eu/zonemta-wildduck) — ZoneMTA plugin for WildDuck integration
+- [wildduck-dockerized](https://github.com/zone-eu/wildduck-dockerized) — Docker Compose setup for the full suite

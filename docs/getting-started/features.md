@@ -32,5 +32,5 @@ title: Features
 16. **Webhooks** for real-time event notifications. Subscribe to events like new messages, authentication attempts, and more via HTTP callbacks.
 17. **Message submission via API.** Send emails directly through the REST API without needing an SMTP client.
 18. **Domain management** including DKIM key management, domain aliases, and domain-level access control via the API.
-19. **ElasticSearch integration** for optional full-text message search.
+19. **[Full-text search](/docs/concepts/full-text-search)** via OpenSearch for optional full-text message search (experimental).
 20. **BIMI support** for Brand Indicators for Message Identification.

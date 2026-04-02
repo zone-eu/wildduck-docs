@@ -115,7 +115,7 @@ There are multiple ways to import maildir into WildDuck
 You can use [import-maildir](https://github.com/nodemailer/import-maildir) tool to import maildir files straight to WildDuck database. You would need to have access to WildDuck database servers and the tool is tested on Courier based maildir folders, so it might not handle all extra additions of Dovecot maildir.
 
 ```
-$ git clone git://github.com/nodemailer/import-maildir.git
+$ git clone https://github.com/nodemailer/import-maildir.git
 $ cd import-maildir
 $ npm install --production
 ```
@@ -182,8 +182,8 @@ Path /pst/maildir-anon/
 Inbox /pst/maildir-anon/Inbox
 
 Channel yourdomain
-Master :yourdomain-remote:
-Slave :yourdomain-local:
+Far :yourdomain-remote:
+Near :yourdomain-local:
 # Exclude everything under the internal [Gmail] folder, except the interesting folders
 #Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
 # Or include everything

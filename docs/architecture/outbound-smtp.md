@@ -8,7 +8,7 @@ title: Outbound SMTP (ZoneMTA)
 ![Outbound SMTP](/img/sprites/airmail_delivery.png)
 
 
-WildDuck uses [ZoneMTA](https://github.com/zone-eu/zone-mta) with the [zonemta-wildduck](https://github.com/nodemailer/zonemta-wildduck) plugin as its outbound SMTP server. ZoneMTA handles message submission from users and delivery to external mail servers.
+WildDuck uses [ZoneMTA](https://github.com/zone-eu/zone-mta) with the [zonemta-wildduck](https://github.com/zone-eu/zonemta-wildduck) plugin as its outbound SMTP server. ZoneMTA handles message submission from users and delivery to external mail servers.
 
 WildDuck also supports LMTP for local test setups, but this is reserved exclusively for local testing. For normal deployments and public-facing message
 submission, use SMTP through ZoneMTA.
@@ -61,5 +61,5 @@ The zonemta-wildduck plugin is configured via ZoneMTA's plugin configuration. Ke
 ## Related Links
 
 - [ZoneMTA](https://github.com/zone-eu/zone-mta) — Outbound SMTP relay
-- [zonemta-wildduck](https://github.com/nodemailer/zonemta-wildduck) — ZoneMTA plugin for WildDuck integration
+- [zonemta-wildduck](https://github.com/zone-eu/zonemta-wildduck) — ZoneMTA plugin for WildDuck integration
 - [WildDuck MTA](https://github.com/nodemailer/wildduck-mta) — Pre-configured ZoneMTA + zonemta-wildduck bundle

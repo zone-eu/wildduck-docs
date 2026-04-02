@@ -18,12 +18,12 @@ WildDuck tries to follow Gmail in product design. If there's a decision to be ma
 
 -   _MongoDB_ to store all data
 -   _Redis_ for pubsub, caching, and rate limiting
--   _Node.js_ version 16 or later
+-   _Node.js_ version 18 or later
 
 **Optional requirements**
 
 -   Redis Sentinel for automatic Redis failover
--   ElasticSearch for full-text search
+-   OpenSearch for [full-text search](/docs/concepts/full-text-search) (experimental)
 -   Build tools to install optional dependencies that need compiling
 
 WildDuck can be installed on any Node.js compatible platform.

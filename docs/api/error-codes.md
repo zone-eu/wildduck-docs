@@ -39,8 +39,21 @@ This is the list with possible error codes returned by the API.
 -   `QRError`: Failed to generate QR code
 -   `TotpDisabled`: TOTP 2FA is not initialized for this user
 -   `RateLimitedError`: Authentication was rate limited.
--   `U2fEnabled`: WebAuthn/FIDO2 2FA is already enabled for this user (legacy name from U2F)
--   `U2fDisabled`: WebAuthn/FIDO2 2FA is not initialized for this user (legacy name from U2F)
--   `InvalidU2fRequest`: Failed to validate WebAuthn/FIDO2 response (legacy name from U2F)
+-   `WebAuthnDisabled`: WebAuthn/FIDO2 2FA is not enabled for this user
+-   `CustomEnabled`: Custom 2FA is already enabled for this user
+-   `CustomDisabled`: Custom 2FA is not enabled for this user
+-   `ChallengeNotFound`: WebAuthn challenge was not found
+-   `CredentialsNotFound`: WebAuthn credentials were not found
 -   `NoUpdates`: Nothing was updated
 -   `TooMany`: Instance limit hit
+-   `WebhookNotFound`: This webhook does not exist
+-   `CertNotFound`: This certificate does not exist
+-   `UserDisabled`: User account is disabled
+-   `MessageRejected`: Message was rejected
+-   `StoreError`: Failed to store message
+-   `DroppedByPolicy`: Message was dropped by policy
+-   `DisallowedMailboxMethod`: This operation is not allowed on this mailbox
+-   `DeleteInProgress`: User deletion is already in progress
+-   `RestoreTaskNotFound`: Restore task was not found
+-   `DownloadRateLimited`: Download rate limit exceeded
+-   `UploadRateLimited`: Upload rate limit exceeded
