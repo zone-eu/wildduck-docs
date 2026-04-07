@@ -17,6 +17,11 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: 'Montserrat', sans-serif;
   --ifm-heading-font-family: 'Montserrat', sans-serif;
+  --api-method-get-color: #1f8b4c;
+  --api-method-put-color: #1e6fd9;
+  --api-method-post-color: var(--openapi-code-green);
+  --api-method-delete-color: var(--openapi-code-red);
+  --api-method-patch-color: var(--openapi-code-orange);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -29,6 +34,8 @@
   --ifm-color-primary-lighter: #76c3dd;
   --ifm-color-primary-lightest: #96d2e6;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --api-method-get-color: #2fbf71;
+  --api-method-put-color: #5aa9ff;
 }
 
 /* Sidebar Method labels */
@@ -55,25 +62,25 @@
 
 .get>.menu__link::before {
   content: "get";
-  background-color: var(--ifm-color-primary);
+  background-color: var(--api-method-get-color);
 }
 
 .put>.menu__link::before {
   content: "put";
-  background-color: var(--openapi-code-blue);
+  background-color: var(--api-method-put-color);
 }
 
 .post>.menu__link::before {
   content: "post";
-  background-color: var(--openapi-code-green);
+  background-color: var(--api-method-post-color);
 }
 
 .delete>.menu__link::before {
   content: "del";
-  background-color: var(--openapi-code-red);
+  background-color: var(--api-method-delete-color);
 }
 
 .patch>.menu__link::before {
   content: "patch";
-  background-color: var(--openapi-code-orange);
+  background-color: var(--api-method-patch-color);
 }
