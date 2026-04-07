@@ -23,7 +23,7 @@ Install script installs and configures all required dependencies and services, i
 ### Docker
 This method can be used on both new or existing servers, no matter the distro. If it supports docker, it will work (amd64 and arm64 are both supported). Docker also makes updating or uninstalling all components quite easy.
 
-[Installation instructions](https://github.com/zone-eu/wildduck-dockerized)
+[Installation instructions](https://github.com/nodemailer/wildduck-dockerized)
 
 The `docker-compose.yml` together with the default configuration script will set up all required dependencies and services, including Let's Encrypt based certs, to run WildDuck as a mail server.
 
