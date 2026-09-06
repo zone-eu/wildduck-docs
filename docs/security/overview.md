@@ -8,7 +8,7 @@ title: Security Overview
 ![Security Overview](/img/sprites/inspecting_email.png)
 
 
-For detailed information on specific security topics, see [Authentication](/docs/security/authentication), [Access Tokens](/docs/security/access-tokens), and [Encryption](/docs/security/encryption).
+For detailed information on specific security topics, see [Authentication](/docs/security/authentication), [Access Tokens](/docs/security/access-tokens), the [read-only MCP service](/docs/security/mcp), and [Encryption](/docs/security/encryption).
 
 ## Passwords
 
