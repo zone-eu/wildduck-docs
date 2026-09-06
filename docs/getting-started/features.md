@@ -34,3 +34,4 @@ title: Features
 18. **Domain management** including DKIM key management, domain aliases, and domain-level access control via the API.
 19. **[Full-text search](/docs/concepts/full-text-search)** via OpenSearch for optional full-text message search (experimental).
 20. **BIMI support** for Brand Indicators for Message Identification.
+21. **[Read-only MCP service](/docs/security/mcp)** exposing mailboxes and messages to AI agents over the Model Context Protocol, bounded to read-only access by dedicated bearer tokens.
