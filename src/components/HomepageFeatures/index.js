@@ -8,7 +8,7 @@ const FeatureList = [
     {
         title: 'Scalable',
         image: '/img/sprites/presenting_server.png',
-        description: 'Everything is stored in MongoDB with sharding support. All instances are stateless \u2014 add more behind a load balancer to increase throughput.',
+        description: 'Accounts and messages are stored in MongoDB with sharding support. Attachments use GridFS or S3. All instances are stateless \u2014 add more behind a load balancer to increase throughput.',
     },
     {
         title: 'Full IMAP Support',
@@ -23,7 +23,7 @@ const FeatureList = [
     {
         title: 'API Controlled',
         image: '/img/sprites/using_tablet.png',
-        description: 'Manage everything via REST API \u2014 accounts, mailboxes, messages, filters, auto-replies, DKIM, and more. No config file editing needed.',
+        description: 'Manage accounts, mailboxes, messages, labels, filters, auto-replies, DKIM, and more through the REST API.',
     },
     {
         title: 'Secure by Design',

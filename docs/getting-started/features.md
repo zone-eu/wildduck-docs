@@ -9,7 +9,7 @@ title: Features
 
 
 1.  **Stateless.** Start as many instances as you want. You can start multiple WildDuck instances in different machines and as long as they share the same
-    MongoDB and Redis settings, users can connect to any instances. This is very different from the traditional IMAP servers where a single user always needs to
+    MongoDB, Redis, and attachment backend settings, users can connect to any instances. This is very different from the traditional IMAP servers where a single user always needs to
     connect (or be proxied) to the same IMAP server. WildDuck keeps all required state information in MongoDB, so it does not matter which IMAP instance you
     use.
 2.  **Scalable** as WildDuck uses sharded MongoDB cluster for the backend storage. If you're running out of space, add a new shard.
@@ -18,7 +18,7 @@ title: Features
     audit logging and even profile files to auto-configure Apple email clients without master password
 5.  **Works on any OS including Windows.** At least if you get MongoDB and Redis running first.
 6.  Focus on **internationalization**, ie. supporting email addresses with non-ascii characters
-7.  **Deduplication of attachments.** If the same attachment is referenced by different messages then only a single copy of the attachment is stored.
+7.  **Deduplication of attachments.** If the same attachment is referenced by different messages then only a single copy of the attachment is stored. Supports [GridFS or S3 storage](/docs/operations/attachment-storage).
 8.  Access messages both using **IMAP and HTTP API**. The latter serves parsed data, so no need to fetch RFC822 messages and parse
     out html, plaintext content or attachments. It is super easy to create a webmail interface on top of this.
 9.  Built in **address labels**: _username+label@example.com_ is delivered to _username@example.com_
@@ -32,5 +32,8 @@ title: Features
 16. **Webhooks** for real-time event notifications. Subscribe to events like new messages, authentication attempts, and more via HTTP callbacks.
 17. **Message submission via API.** Send emails directly through the REST API without needing an SMTP client.
 18. **Domain management** including DKIM key management, domain aliases, and domain-level access control via the API.
-19. **[Full-text search](/docs/concepts/full-text-search)** via OpenSearch for optional full-text message search (experimental).
+19. **[Full-text search](/docs/concepts/full-text-search)** using MongoDB, with experimental OpenSearch indexing.
 20. **BIMI support** for Brand Indicators for Message Identification.
+21. **[Persistent labels](/docs/concepts/labels)** with stable IDs, optional display metadata, message filters, and IMAP flag mappings.
+22. **[Read-only MCP access](/docs/api/mcp)** for mail clients and assistants using dedicated account-scoped credentials.
+23. **[Prometheus monitoring](/docs/operations/monitoring)** on an independent listener, including protocol, queue, API, and MCP metrics.

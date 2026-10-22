@@ -16,13 +16,15 @@ WildDuck allows sending emails directly through the HTTP API, without requiring 
 POST /users/:user/submit
 ```
 
-This endpoint composes and queues a message for delivery through ZoneMTA.
+This endpoint composes a message and, by default, queues it for delivery through
+the configured sender queue. It normally stores a copy in Sent Mail. Set `isDraft`
+to store a draft without delivery, or `uploadOnly` to store without queueing.
 
 ## Request Format
 
 The request body includes:
 
-- **from** — Sender address (must match one of the user's registered addresses)
+- **from** — Optional sender address, resolved against the user's addresses and sender policy
 - **to** / **cc** / **bcc** — Recipient addresses
 - **subject** — Message subject
 - **text** — Plain text body
@@ -35,15 +37,18 @@ The request body includes:
 
 ## Attachments
 
-Attachments can be included inline in the request or referenced from the [Storage API](/docs/api/storage-api) (for draft attachments that were uploaded separately).
+Attachments can be included in the request or referenced by storage file IDs
+from the [Storage API](/docs/api/storage-api). HTML data URLs may also be
+extracted into attachments before request validation.
 
 ## How It Works
 
-1. The API validates the sender address against the user's registered addresses
-2. The message is composed using Nodemailer
-3. The composed message is submitted to ZoneMTA's maildrop queue
-4. ZoneMTA handles DKIM signing and delivery
-5. A copy is saved to the user's Sent Mail folder
+1. The API resolves the From address and envelope using the user's account and
+   sender policy.
+2. The message is composed using Nodemailer.
+3. Unless `isDraft` or `uploadOnly` is set, it is submitted to the configured
+   maildrop queue for delivery.
+4. A copy is stored in Sent Mail, or in Drafts when `isDraft` is set, unless a different `mailbox` is specified or the account is over quota.
 
 ## Difference from SMTP Submission
 

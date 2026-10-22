@@ -26,7 +26,7 @@ List stored files for the user. Supports pagination and filename search. Returns
 POST /users/:user/storage
 ```
 
-Upload a file to the user's storage. Supports both binary uploads and base64-encoded content. Returns a file ID that can be referenced in message composition.
+Upload a file to the user's storage. Supports both binary uploads and base64-encoded content (`encoding=base64`). Returns a file ID that can be referenced in message composition.
 
 ### Download a File
 
@@ -34,7 +34,8 @@ Upload a file to the user's storage. Supports both binary uploads and base64-enc
 GET /users/:user/storage/:file
 ```
 
-Download a previously uploaded file. Supports Content-ID for inline image references.
+Download a previously uploaded file. An optional Content-ID can be stored at
+upload time for inline image references.
 
 ### Delete a File
 
@@ -50,7 +51,7 @@ Files are stored in MongoDB GridFS under the `storage` bucket in the GridFS data
 
 ---
 
-# Health Endpoint
+## Health Endpoint
 
 WildDuck provides a health check endpoint for monitoring and load balancer integration.
 

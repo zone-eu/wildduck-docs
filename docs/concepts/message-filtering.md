@@ -14,7 +14,7 @@ WildDuck has a built-in message filtering system. This is conceptually similar t
 
 When a message is received (via Haraka inbound SMTP), WildDuck evaluates all applicable filters in order. Each filter consists of a **query** (conditions to match) and an **action** (what to do with matching messages).
 
-Filters are evaluated for every incoming message. Multiple filters can match the same message, and their actions are applied in sequence.
+Filters are evaluated for every incoming message in `_id` order (normally creation order). Multiple filters can match the same message. For actions that take a single value, the first matching filter that sets that action wins. Labels and forwarding targets from matching filters are combined. Domain allow/block rules are considered before user filters, and the spam-level policy is applied after them. A filter that explicitly chooses a destination mailbox takes precedence over routing to Junk.
 
 ## Filter Conditions
 
@@ -30,6 +30,8 @@ Filters can match on message properties:
 
 Conditions support substring matching and regular expressions.
 
+For the related account labels exposed by WildDuck, see [Labels](./labels).
+
 ## Filter Actions
 
 When a filter matches, one or more actions can be taken:
@@ -42,6 +44,7 @@ When a filter matches, one or more actions can be taken:
 | **Flag** | Set the `\Flagged` flag on delivery |
 | **Spam** | Route message to Junk Mail folder |
 | **Delete** | Do not store the matching message |
+| **Labels** | Apply named [labels](/docs/concepts/labels) to matching messages |
 
 ### Forwarding
 

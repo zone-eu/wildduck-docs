@@ -42,6 +42,7 @@ const sidebars: SidebarsConfig = {
         'api/event-source',
         'api/message-submission',
         'api/storage-api',
+        'api/mcp',
       ],
     },
     {
@@ -62,6 +63,8 @@ const sidebars: SidebarsConfig = {
       items: [
         'operations/configuration',
         'operations/operating-wildduck',
+        'operations/attachment-storage',
+        'operations/monitoring',
         'operations/docker',
         'operations/certificates',
         'operations/default-values',
@@ -77,6 +80,7 @@ const sidebars: SidebarsConfig = {
         'concepts/protocol-support',
         'concepts/attachment-deduplication',
         'concepts/message-filtering',
+        'concepts/labels',
         'concepts/domain-management',
         'concepts/full-text-search',
       ],

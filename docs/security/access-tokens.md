@@ -8,30 +8,34 @@ title: API Roles
 ![Access Tokens](/img/sprites/reading_scroll.png)
 
 
-WildDuck API can be accessed either by using the root token set in configuration file or by creating role based tokens. Root token can be used for everything while role based tokens are always limited.
+WildDuck API can be accessed with the root token from configuration or with
+role-based and user-bound tokens. The root token has the broadest privileges,
+other roles are limited by the grants in the configured role definitions.
 
-Role based tokens that are bound to a specific user can be generateid by requesting a token via the authentication call (set `token:true`):
+An API token for a user can be issued by authenticating with scope `master` and
+`token: true`:
 
 ```
+# For an account with no pending 2FA challenge
 $ curl -i -XPOST http://localhost:8080/authenticate \
   -H 'Content-type: application/json' \
   -d '{
     "username": "myuser",
     "password": "secretpass",
     "scope": "master",
-    "token": "true"
-  }
-
-> {
->   "success": true,
->   ..
->   "token": "secret-token"
->  }'
+    "token": true
+  }'
 ```
 
-Such token is limited for API requests that are related to this specific user only (eg. you can not list mailboxes or messages for any other user) and also have a lifetime thus needing renewing after expiration.
+When 2FA is required and `strict2fa` is enabled, the response contains a
+short-lived nonce instead of a token. See [Authentication](/docs/security/authentication)
+for the challenge flow.
 
-For any other role you can use _access-tokens_ script in the bin folder.
+The resulting user token is limited to that user's API access and has a
+configured lifetime. For an MCP-only credential, see [MCP credentials and
+service](/docs/api/mcp).
+
+For other roles, use the `bin/access-tokens` script.
 
 ```
 $ ./bin/access-tokens provision admin root
@@ -45,11 +49,14 @@ In this case "admin" is a username for the token (this is not a user account but
 
 When building a publicly available front end application to access mailboxes consider the following:
 
--   Host your public app and WIldDuck API in different servers
--   Edit WildDuck API config file to always require valid tokens
+-   Host your public app and WildDuck API on separate servers
+-   Configure the API to require valid access tokens
 -   Do not store actual root token in your public application config
--   Generate an "authentication" role token for `/authenticate` calls to be used by your public app
+-   Generate a token with the `tokenAuth` role for `/authenticate` calls that request user tokens
 -   Request user tokens from authentication calls
 -   Use user tokens for normal API requests
 
-This guarantees that even if your application code and config is somehow leaked it does not allow access to the mailboxes of other users.
+User-bound tokens limit API access to the associated user's account, subject to
+the role grants. A leaked token still exposes that user's data and remains usable
+until it expires or is revoked, so do not embed long-lived credentials in
+public client code.

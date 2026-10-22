@@ -16,11 +16,19 @@ User password is hashed with pbkdf2 by default (SHA-256, 100,000 iterations). Wi
 
 ## 2FA
 
-WildDuck generates random TOTP seed tokens. These are encrypted using AES-256-GCM cipher with a master password configured in application settings. Encrypted TOTP seed is stored in the user entry in the users database.
+WildDuck generates random TOTP seeds. They are encrypted at rest only when
+`totp.secret` is configured. Without it, seeds are stored in plaintext in the
+user record. Configure a strong, stable `totp.secret` before enabling TOTP and
+keep its value unchanged, since changing or removing it prevents existing
+encrypted seeds from being decrypted. See [Authentication](/docs/security/authentication).
 
 WildDuck also supports WebAuthn/FIDO2 hardware security keys for second factor authentication.
 
-If 2FA is enabled then account password can only be used for the "master" scope but not for IMAP, POP3 or SMTP scopes. In these cases the user must generate an Application Specific Password for the required scope(s).
+If 2FA is enabled then account password can be used for interactive `master` and `mcp` authentication, but not for IMAP, POP3 or SMTP scopes. In these cases the user must
+generate an Application Specific Password for the required scope(s). MCP
+credentials use the `mcp:read` role, which can also access its explicitly
+allowlisted read-only REST API routes. See [MCP credentials and
+service](/docs/api/mcp).
 
 ## Application Specific Passwords
 
@@ -44,4 +52,9 @@ Authentication related events (this also includes modifications in authenticatio
 
 ## Role based tokens
 
-By default a root token is used for validating API calls. You can use role based and user bound tokens instead to limit damage in case tokens are leaked. Read about tokens [here](/docs/security/access-tokens).
+API access tokens are not required by default: `api.accessControl.enabled` is
+false, and the configured root `api.accessToken` is commented out in the
+default configuration. Operators can enable required-token access and set a
+root token, then use role-based or user-bound tokens for narrower access.
+Leaked tokens still grant the permissions assigned to them until revoked or
+expired. Read about tokens [here](/docs/security/access-tokens).

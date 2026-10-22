@@ -30,6 +30,23 @@ WildDuck IMAP server supports the following IMAP standards:
     mean actual byte storage in disk, it is calculated as the sum of the [RFC822](https://tools.ietf.org/html/rfc822) sources of stored messages.
 -   **COMPRESS=DEFLATE** ([RFC4978](https://tools.ietf.org/html/rfc4978)) – Compress traffic between the client and the server
 
+### Apple push notifications
+
+WildDuck supports `XAPPLEPUSHSERVICE` for compatible Apple Mail clients. It is disabled by default and requires an Apple-issued APNs certificate, private key, and topic:
+
+```toml
+[imap.aps]
+enabled = true
+topic = "com.apple.mobilemail.push.example"
+certPath = "/etc/wildduck/apns.pem"
+keyPath = "/etc/wildduck/apns.key"
+sandbox = false
+```
+
+Use the topic from your push certificate. These are APNs credentials, separate from the TLS certificate used for IMAP connections. See the [IMAP configuration](https://github.com/zone-eu/wildduck/blob/master/config/imap.toml) for the available settings.
+
+### Synchronization
+
 WildDuck more or less passes the [ImapTest](https://www.imapwiki.org/ImapTest/TestFeatures) Stress Testing run. Common errors that arise in the test are
 unknown labels (WildDuck doesn't send unsolicited `FLAGS` updates even though it does send unsolicited `FETCH FLAGS` updates) and sometimes NO for `STORE`
 (messages deleted in one session can not be updated in another).
@@ -86,21 +103,18 @@ used as a public-facing or production submission protocol.
 This is a list of known differences from the IMAP specification. Listed differences are either intentional or are bugs that became features.
 
 1.  `\Recent` flags is not implemented and most probably never will be (RFC3501 2.3.2.)
-2.  `RENAME` does not touch subfolders which is against the spec (RFC3501 6.3.5\. _If the name has inferior hierarchical names, then the inferior hierarchical
-    names MUST also be renamed._). WildDuck stores all folders using flat hierarchy, the "/" separator is fake and only used for listing mailboxes
-3.  Unsolicited `FLAGS` responses (RFC3501 7.2.6.) and `PERMANENTFLAGS` are not sent (except for as part of `SELECT` and `EXAMINE` responses). WildDuck notifies
+2.  Unsolicited `FLAGS` responses (RFC3501 7.2.6.) and `PERMANENTFLAGS` are not sent (except for as part of `SELECT` and `EXAMINE` responses). WildDuck notifies
     about flag updates only with unsolicited FETCH updates.
-4.  WildDuck responds with `NO` for `STORE` if matching messages were deleted in another session
-5.  `CHARSET` argument for the `SEARCH` command is ignored (RFC3501 6.4.4.)
-6.  Metadata arguments for `SEARCH MODSEQ` are ignored (RFC7162 3.1.5.). You can define `<entry-name>` and `<entry-type-req>` values but these are not used for
+3.  WildDuck responds with `NO` for `STORE` if matching messages were deleted in another session
+4.  `SEARCH` reads search strings as UTF-8 and accepts `US-ASCII` and `UTF-8` as `CHARSET` values. Other charsets receive `NO [BADCHARSET (US-ASCII UTF-8)]` (RFC3501 6.4.4.).
+5.  Metadata arguments for `SEARCH MODSEQ` are ignored (RFC7162 3.1.5.). You can define `<entry-name>` and `<entry-type-req>` values but these are not used for
     anything
-7.  `SEARCH TEXT` and `SEARCH BODY` both use MongoDB [\$text index](https://docs.mongodb.com/v3.4/reference/operator/query/text/) against decoded plaintext
-    version of the message. RFC3501 assumes that it should be a string match either against full message (`TEXT`) or body section (`BODY`).
-8.  What happens when FETCH is called for messages that were deleted in another session? _Not sure, need to check_
-9.  **Autoexpunge**, meaning that an EXPUNGE is called on background whenever a messages gets a `\Deleted` flag set. This is not in conflict with IMAP RFCs.
+6.  `SEARCH TEXT` and `SEARCH BODY` use MongoDB text search against the decoded plaintext version of the message. This differs from RFC3501's literal string matching over the full message (`TEXT`) or body section (`BODY`).
 
 Any other differences are most probably real bugs and unintentional.
 
-## Other Differences
+The implemented `SEARCH` keys include the standard flag, address, subject, header, date, size, keyword, UID, `OR`, and `NOT` criteria, plus `OLDER`, `YOUNGER`, and `MODSEQ`. Date and size operands are validated by the server. The accepted keys and their argument types are maintained in [the IMAP parser](https://github.com/nodemailer/wildduck/blob/master/imap-core/lib/imap-tools.js#L64-L98). This list describes parser support, while backend behavior can differ for full-text criteria as noted above.
 
-1. Messages retrieved from WildDuck might not be exact copies of messages that were initially stored. This mostly affects base64 encoded attachments and content in multipart mime nodes (eg. text like "This is a multi-part message in MIME format.")
+## Message fidelity
+
+Since version 1.53.0, messages stored with the versioned MIME tree are rebuilt byte for byte as received, including transport padding, multipart epilogues, and parts without a body section. Older stored trees retain their earlier rendering behavior. See [Operating WildDuck](/docs/operations/operating-wildduck#upgrading) for the version and rolling-upgrade details.

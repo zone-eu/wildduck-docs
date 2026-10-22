@@ -8,7 +8,7 @@ title: Default values
 ![Default Values](/img/sprites/reading_log_confused.png)
 
 
-You can set system wide defaults using either the [Settings API endpoints](https://docs.wildduck.email/api/#tag/Settings) or by using the built in API client for system settings.
+You can set system wide defaults using either the [Settings API endpoints](/docs/category/wildduck-api) or by using the built in API client for system settings.
 
 You can find the client from API path _/public/config.html_, eg. if your API is running on port 8080 then the URL should be http://127.0.0.1:8080/public/config.html
 

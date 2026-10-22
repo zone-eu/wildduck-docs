@@ -10,6 +10,10 @@ title: Installation
 
 WildDuck itself is an IMAP, POP3, and HTTP API server. Together with [Haraka](/docs/architecture/inbound-smtp) (inbound SMTP) and [ZoneMTA](/docs/architecture/outbound-smtp) (outbound SMTP), it functions as a complete mail server. Below are instructions for installing a complete mail server, or only WildDuck itself.
 
+## Requirements
+
+The current WildDuck release requires **Node.js 22.19.0 or later**, MongoDB, and Redis. See [Requirements](/docs/getting-started/introduction#requirements) for optional components. The standalone WildDuck image does not include the other mail-suite services.
+
 ## Complete mail server
 
 ### Scripted install
@@ -66,11 +70,13 @@ node server.js --config=/etc/wildduck.toml
 
 #### Step 4\. Create a user account
 
-See [API Docs](https://docs.wildduck.email/api/#api-Users-PostUser) for details about creating new user accounts
+Create an account with `POST /users`. See the [API reference](/docs/category/wildduck-api) for the request fields. Set up [API access control](/docs/security/access-tokens) before allowing other hosts to reach the management API.
+
+For a graphical administration interface, see [WildDuck Admin](https://github.com/zone-eu/wildduck-admin), which connects to an existing WildDuck HTTP API.
 
 #### Step 5\. Use an IMAP/POP3 client to log in
 
-Any IMAP or POP3 client will do. Use the credentials from step 4\. to log in.
+Use the account credentials, or an application-specific password when two-factor authentication is enabled. The standalone defaults are IMAP over TLS on **9993** and POP3 over TLS on **9995**. The scripted and Docker Compose installations may publish the standard ports 993 and 995 instead. Configure trusted [TLS certificates](/docs/operations/certificates) for client access.
 
 ### Docker Install
 The easiest way to setup wildduck with a docker image is given below, for more documentation about configuration options in the docker image, refer to
@@ -86,11 +92,13 @@ docker pull ghcr.io/zone-eu/wildduck
 ```
 
 It is also possible to pull a specific version of wildduck by specifying the version as the image tag.
-(example, for version 1.45.5):
+(example, for version 1.55.1):
 ```
-docker pull ghcr.io/zone-eu/wildduck:1.45.5
+docker pull ghcr.io/zone-eu/wildduck:1.55.1
 ```
-To run the docker image using the [default config](https://github.com/zone-eu/wildduck/blob/master/config/default.toml), and `mongodb` and `redis` from the host machine, use:
+On Linux, to run the image using the [default config](https://github.com/zone-eu/wildduck/blob/master/config/default.toml) and MongoDB and Redis from the host machine, use:
 ```
 docker run --network=host ghcr.io/zone-eu/wildduck
 ```
+
+For container networking and configuration overrides, see [Docker](/docs/operations/docker). For an existing deployment, read the [upgrade guidance](/docs/operations/operating-wildduck#upgrading) before updating WildDuck and its SMTP integrations.

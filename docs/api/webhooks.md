@@ -17,9 +17,10 @@ The webhook system is built on [BullMQ](https://docs.bullmq.io/) (Redis-based jo
 1. An event occurs in WildDuck (e.g. a new message arrives)
 2. The event is published to the webhook queue in Redis
 3. The webhook worker picks up the event and delivers it to all matching webhook subscriptions
-4. Failed deliveries are retried with exponential backoff
+4. Failed jobs are retried up to five attempts with exponential backoff
 
-At least one WildDuck instance must have `webhooks.enabled = true` in its configuration, otherwise events will pile up in the Redis queue.
+At least one WildDuck instance must have `webhooks.enabled = true` in its
+configuration to process queued events.
 
 ## Managing Webhooks
 
@@ -397,6 +398,26 @@ Returned data:
 | Field | Type |
 | --- | --- |
 | `user` | string |
+
+### `mcptoken.created`
+
+Returned data:
+
+| Field | Type |
+| --- | --- |
+| `user` | string |
+| `mcptoken` | string |
+| `description` | string |
+
+### `mcptoken.deleted`
+
+Returned data:
+
+| Field | Type |
+| --- | --- |
+| `user` | string |
+| `mcptoken` | string |
+| `description` | string |
 
 ### `mfa.webauthn.registered`
 

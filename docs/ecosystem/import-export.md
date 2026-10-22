@@ -50,7 +50,7 @@ Multiple users can be imported in a single command:
 
 ## IMAP-based Import (mbsync)
 
-For environments where direct database access is not available, you can use [mbsync](https://isstracker.com/man/mbsync.1.html "isstracker.com hosts a mirror of the mbsync man page") to sync mailboxes from another IMAP server into WildDuck. This is slower than import-maildir due to IMAP protocol overhead and requires user passwords.
+For environments where direct database access is not available, you can use [mbsync](https://isync.sourceforge.io/mbsync.html) to copy mailboxes between IMAP servers. Configure WildDuck as the destination and explicitly choose a one-way sync direction. Mbsync otherwise synchronizes changes in both directions by default. This is slower than import-maildir due to IMAP protocol overhead and requires credentials for both servers.
 
 See the [Migration Guide](/docs/ecosystem/migration-guide) for detailed mbsync configuration examples.
 

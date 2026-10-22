@@ -8,9 +8,7 @@ title: Migration guide
 ![Migration Guide](/img/sprites/lost_message.png)
 
 
-**Remark**: This guide may contain factual errors, so please doublecheck everything, and correct this wiki page.
-
-This is a recollection of migrating from Microsoft Exchange server to wildduck.
+This guide describes a migration from an existing mail system to WildDuck. Create the destination accounts before importing messages. For current WildDuck installation and configuration, follow the [installation documentation](/docs/getting-started/installation).
 
 ## Install wildduck
 
@@ -21,6 +19,7 @@ The best is on a server or virtual server (I installed inside a kvm virtual serv
 
 There [are][1] some [useful][2] website to [check][3] if your email server working correctly.
 You may need to remove yourself from some [spam site][4].
+After migration, check whether messages from the new server reach the inbox or junk folder at major providers. A passing SPF or DKIM check does not guarantee inbox placement. A delivery test such as [Email Spam Tester][5] can help.
 
 ## Domain settings
 
@@ -91,7 +90,7 @@ The following secure connection type: TLS
 
 ## Add users to wildduck
 
-The easiest with wildduck-webmail.
+Create accounts through the WildDuck API or a graphical interface such as [WildDuck Admin](https://github.com/zone-eu/wildduck-admin). [WildDuck Webmail](/docs/ecosystem/webmail) also provides account registration in deployments where it is enabled.
 
 ## Migrate emails from old system (outlook clients)
 
@@ -151,55 +150,70 @@ $ ./bin/import-maildir user1@example.com:/var/mail/user1_example.com/ user2@exam
 
 #### 2. mbsync tool
 
-mbsync is a proven tool but to use it you need to know the passwords of IMAP users. Additionally it is much slower than import-maildir as there is IMAP overhead.
-
-Sync emails (in maildir format) to wildduck:
+Use [mbsync](https://isync.sourceforge.io/mbsync.html) when both the source and destination are reachable over IMAP. It requires credentials for both servers and is slower than direct Maildir import because messages pass through IMAP. Set the old server as `Far` and WildDuck as `Near`, then configure a pull-only channel so source messages are copied toward WildDuck. The following is a direction sketch. Fill in host, TLS certificate, and password settings for both accounts:
 
 ```
 $ cat ~/.mbsyncrc
-IMAPAccount yourdomain
-# Address to connect to
-Host 192.168.0.1
+IMAPAccount old-server
+# Address of the source IMAP server
+Host old-imap.example.net
 User anon@yourdomain.com
-Pass gbxiccfdfbqb
-# To store the password in an encrypted file use PassCmd instead of Pass
-# PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass.gpg"
-#
-# Use SSL
-SSLType IMAPS
-# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
-CertificateFile /pst/19216801.cert
-#CertificateFile ~/.cert/imap.gmail.com.pem
-#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+# Read the password from an encrypted file instead of storing it with Pass
+PassCmd "gpg2 -q -d ~/.old-mailpass.gpg"
+# Use implicit TLS
+TLSType IMAPS
+# Additional trusted certificate for this server, if needed
+CertificateFile ~/.cert/old-imap.pem
 
-IMAPStore yourdomain-remote
-Account yourdomain
+IMAPStore old-store
+Account old-server
 
-MaildirStore yourdomain-local
-Subfolders Verbatim
-# The trailing "/" is important
-Path /pst/maildir-anon/
-Inbox /pst/maildir-anon/Inbox
+IMAPAccount wildduck
+# Address of the destination WildDuck server
+Host mail.yourdomain.com
+User anon@yourdomain.com
+# Use an application-specific password when two-factor authentication is enabled
+PassCmd "gpg2 -q -d ~/.wildduck-mailpass.gpg"
+# Use implicit TLS
+TLSType IMAPS
+# Additional trusted certificate for this server, if needed
+CertificateFile ~/.cert/wildduck.pem
 
-Channel yourdomain
-Far :yourdomain-remote:
-Near :yourdomain-local:
-# Exclude everything under the internal [Gmail] folder, except the interesting folders
-#Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
-# Or include everything
-Patterns *
-# Automatically create missing mailboxes, both locally and on the server
-Create Both
-# Save the synchronization state files in the relevant directory
-SyncState *
+IMAPStore wildduck-store
+Account wildduck
+
+Channel old-to-wildduck
+# Copy from the old server (Far) to WildDuck (Near)
+Far :old-store:
+Near :wildduck-store:
+# Exclude everything under the internal [Gmail] folder, except selected folders
+#Patterns INBOX * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything, with INBOX listed explicitly
+Patterns INBOX *
+# Automatically create missing mailboxes only on WildDuck
+Create Near
+# Copy new messages from Far to Near
+Sync Pull New
+# Preserve message arrival dates
+CopyArrivalDate yes
+# Save synchronization state locally. The trailing "/" is important
+SyncState ~/.mbsync/old-to-wildduck/
 
 ```
 
-Sync it:
-`mbsync -a`
+Create the local state directory before the first run. `Patterns INBOX *` includes INBOX explicitly alongside other folders. Start with a dry run and inspect the planned operations, then run the channel:
+
+```bash
+mkdir -p ~/.mbsync/old-to-wildduck
+mbsync --dry-run old-to-wildduck
+mbsync old-to-wildduck
+```
+
+Do not replace `Sync Pull New` with the default bidirectional sync for a migration copy. This example does not propagate later flag changes or deletions. Review folder mapping and the isync documentation for the source server's folder names before importing.
 
 [0]: https://github.com/zone-eu/wildduck/blob/master/setup/README.md
 [1]: https://toolbox.googleapps.com/apps/checkmx/check?domain=yourserver.com&dkim_selector=
 [2]: https://www.mail-tester.com/
 [3]: http://www.appmaildev.com/en/dkim/
 [4]: http://www.barracudacentral.org/rbl/removal-request/
+[5]: https://email-spam-tester.com/

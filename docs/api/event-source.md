@@ -18,15 +18,18 @@ GET /users/:user/updates
 
 This endpoint returns a persistent SSE stream. The client receives events whenever changes occur in the user's mailboxes.
 
-## Event Types
+## Event Format
 
-The stream delivers events for:
+Journal updates are sent as SSE `data` fields containing JSON. WildDuck does not
+set an SSE `event` name for ordinary updates, so clients receive them through
+`onmessage`. The JSON `command` field identifies the update, with fields such
+as `mailbox`, `uid`, `flags`, and counters depending on the command. Journal
+entry IDs are sent in the SSE `id` field and can be resumed with
+`Last-Event-ID`. The stream also sends occasional comment lines to keep idle
+connections alive. A replay failure may be sent as a named `error` event.
 
-- **New messages** — when a message is delivered or uploaded
-- **Message deletion** — when messages are removed
-- **Flag changes** — when message flags are updated (read, flagged, etc.)
-- **Mailbox changes** — when mailboxes are created, renamed, or deleted
-- **Mailbox counters** — updated message counts and unseen counts
+Updates cover message changes, mailbox changes, and mailbox or label counters.
+The payload is a filtered journal entry, not a separate event envelope.
 
 ## Usage
 
