@@ -120,7 +120,7 @@ enabled = true   # at least one server must have this enabled
 
 ### MCP (`[mcp]`)
 
-The read-only MCP service is configured separately in `config/mcp.toml` and is disabled by default. See [Read-only MCP Service](/docs/api/mcp) for credentials, deployment, and client access.
+The read-only MCP service is configured separately in `config/mcp.toml` and is disabled by default. See [Read-only MCP Service](/docs/security/mcp) for credentials, deployment, and client access.
 
 ### Full-Text Search (`[elasticsearch]`)
 

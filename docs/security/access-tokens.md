@@ -33,7 +33,7 @@ for the challenge flow.
 
 The resulting user token is limited to that user's API access and has a
 configured lifetime. For an MCP-only credential, see [MCP credentials and
-service](/docs/api/mcp).
+service](/docs/security/mcp).
 
 For other roles, use the `bin/access-tokens` script.
 

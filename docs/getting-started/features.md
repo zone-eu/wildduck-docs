@@ -35,5 +35,5 @@ title: Features
 19. **[Full-text search](/docs/concepts/full-text-search)** using MongoDB, with experimental OpenSearch indexing.
 20. **BIMI support** for Brand Indicators for Message Identification.
 21. **[Persistent labels](/docs/concepts/labels)** with stable IDs, optional display metadata, message filters, and IMAP flag mappings.
-22. **[Read-only MCP access](/docs/api/mcp)** for mail clients and assistants using dedicated account-scoped credentials.
+22. **[Read-only MCP access](/docs/security/mcp)** for mail clients and assistants using dedicated account-scoped credentials.
 23. **[Prometheus monitoring](/docs/operations/monitoring)** on an independent listener, including protocol, queue, API, and MCP metrics.

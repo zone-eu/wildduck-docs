@@ -30,7 +30,7 @@ Each authentication attempt has a scope that determines what the credential gran
 | **smtp** | SMTP submission access |
 | **mcp** | MCP-only credentials use the `mcp:read` role, which also grants its explicitly allowlisted read-only API routes |
 
-When 2FA is enabled, IMAP, POP3, and SMTP access must use Application-Specific Passwords. The main account password can be used for interactive `master` and `mcp` authentication with a second-factor challenge. See [MCP credentials and service](/docs/api/mcp).
+When 2FA is enabled, IMAP, POP3, and SMTP access must use Application-Specific Passwords. The main account password can be used for interactive `master` and `mcp` authentication with a second-factor challenge. See [MCP credentials and service](/docs/security/mcp).
 
 ## Two-Factor Authentication
 

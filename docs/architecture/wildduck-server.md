@@ -20,7 +20,7 @@ WildDuck runs the following services (each can be independently enabled/disabled
 | POP3 | 9995 (TLS) | POP3 | Email client access |
 | HTTP API | 8080 | REST/JSON | Management, webmail backend |
 | Metrics (disabled by default) | 8081 | Prometheus HTTP | [Monitoring](/docs/operations/monitoring) |
-| MCP (disabled by default) | 8082 | Streamable HTTP | [Read-only mail tools](/docs/api/mcp) |
+| MCP (disabled by default) | 8082 | Streamable HTTP | [Read-only mail tools](/docs/security/mcp) |
 
 These listeners support TLS. The API, metrics, and MCP listeners bind to loopback by default. An additional LMTP listener is available for local testing. Use Haraka and ZoneMTA for production SMTP traffic.
 

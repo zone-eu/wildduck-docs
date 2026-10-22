@@ -42,7 +42,6 @@ const sidebars: SidebarsConfig = {
         'api/event-source',
         'api/message-submission',
         'api/storage-api',
-        'api/mcp',
       ],
     },
     {
@@ -53,6 +52,7 @@ const sidebars: SidebarsConfig = {
         'security/overview',
         'security/authentication',
         'security/access-tokens',
+        'security/mcp',
         'security/encryption',
       ],
     },
