@@ -52,6 +52,7 @@ const sidebars: SidebarsConfig = {
         'security/overview',
         'security/authentication',
         'security/access-tokens',
+        'security/mcp',
         'security/encryption',
       ],
     },
