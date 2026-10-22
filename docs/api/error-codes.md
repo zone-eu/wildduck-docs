@@ -5,6 +5,18 @@
 
 This is the list with possible error codes returned by the API.
 
+Merged request validation errors return HTTP 400 with an `error`,
+`code: "InputValidationError"`, and `details` field. Errors from a handler
+after validation usually have an HTTP error status and a JSON body with
+`error` and `code` fields, for example `{ "error": "Not enough privileges",
+"code": "MissingPrivileges" }`. Errors raised before the route's validation
+and handler (such as access-token checks, malformed JSON, or request parsing
+errors) use `{ "code": "...", "message": "..." }` instead.
+Unexpected server errors return HTTP 500 with `code: "InternalError"` unless a
+more specific code is available. Some older endpoints still return inline
+`error` bodies with HTTP 200. Check the endpoint's generated API schema for its
+status contract.
+
 -   `InvalidToken`
 -   `MissingPrivileges`: Not enough privileges
 -   `InputValidationError` (various descriptions about invalid input validation)

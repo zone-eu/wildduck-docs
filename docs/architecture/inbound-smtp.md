@@ -8,7 +8,7 @@ title: Inbound SMTP (Haraka)
 ![Inbound SMTP](/img/sprites/retrieving_mail.png)
 
 
-WildDuck uses [Haraka](http://haraka.github.io/) with the [haraka-plugin-wildduck](https://github.com/nodemailer/haraka-plugin-wildduck) plugin as its inbound SMTP server. Haraka receives email from the internet on port 25 and delivers it into the WildDuck mail store.
+WildDuck uses [Haraka](http://haraka.github.io/) with the [haraka-plugin-wildduck](https://github.com/zone-eu/haraka-plugin-wildduck) plugin as its inbound SMTP server. Haraka receives email from the internet on port 25 and delivers it into the WildDuck mail store.
 
 ## Role in the Mail Suite
 
@@ -26,7 +26,7 @@ When a message arrives, haraka-plugin-wildduck performs the following steps:
 4. **Email authentication** — SPF, DKIM, DMARC, and ARC verification results are evaluated (via the [mailauth](https://github.com/postalsys/mailauth) library).
 5. **Filter processing** — User-defined filters are applied (forwarding, folder routing, discarding, etc.).
 6. **Autoreply** — If the recipient has an active autoreply/vacation message, a reply is queued.
-7. **Message storage** — The message is parsed, attachments are deduplicated, and everything is stored directly in MongoDB.
+7. **Message storage** — The message is parsed into MongoDB, with deduplicated attachment payloads in the configured GridFS or S3 backend.
 8. **IMAP notification** — A notification is published via Redis pub/sub so connected IMAP clients are immediately alerted about the new message.
 
 ## Spam Routing
@@ -44,6 +44,7 @@ The plugin is configured via Haraka's plugin configuration system. Key settings 
 - Rspamd integration settings
 - Rate limiting for inbound recipients
 - Maximum message size
+- Attachment backend settings, including S3 access when used (see [Attachment Storage](/docs/operations/attachment-storage))
 
 ## Related Links
 

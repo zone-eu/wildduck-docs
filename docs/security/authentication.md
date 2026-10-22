@@ -28,14 +28,30 @@ Each authentication attempt has a scope that determines what the credential gran
 | **imap** | IMAP protocol access |
 | **pop3** | POP3 protocol access |
 | **smtp** | SMTP submission access |
+| **mcp** | MCP-only credentials use the `mcp:read` role, which also grants its explicitly allowlisted read-only API routes |
 
-When 2FA is enabled, the main account password is restricted to the "master" scope only. All protocol access (IMAP, POP3, SMTP) must use Application-Specific Passwords.
+When 2FA is enabled, IMAP, POP3, and SMTP access must use Application-Specific Passwords. The main account password can be used for interactive `master` and `mcp` authentication with a second-factor challenge. See [MCP credentials and service](/docs/security/mcp).
 
 ## Two-Factor Authentication
 
+When `POST /authenticate` requests a token with `token: true`, accounts with
+TOTP or WebAuthn enabled must complete the challenge before the credential is
+issued when `strict2fa` is enabled (the default). The response contains a
+short-lived nonce instead of the token. A successful TOTP check or WebAuthn
+assertion completes the login and returns the credential. MCP scope always
+waits for its configured TOTP or WebAuthn challenge, even when `strict2fa` is
+disabled. With `strict2fa` disabled, master-scope login keeps its compatibility
+behavior: it returns the API token before the optional challenge, and the
+nonce can mark that same session as MFA-verified after success.
+
 ### TOTP (Time-based One-Time Passwords)
 
-WildDuck generates random TOTP seed tokens that are encrypted using AES-256-GCM with a master password from the application configuration. The encrypted seed is stored in the user's database entry.
+WildDuck generates random TOTP seeds. They are encrypted at rest only when
+`totp.secret` is configured. Otherwise they are stored in plaintext in the
+user record. Configure a strong, stable `totp.secret` before enabling TOTP and
+keep it unchanged: changing or removing it prevents existing encrypted seeds
+from being decrypted. New values use AES-256-GCM. `totp.cipher` is only used
+when reading legacy encrypted values.
 
 **Setup flow:**
 1. `POST /users/:user/2fa/totp/setup` — generates a TOTP seed and returns a QR code

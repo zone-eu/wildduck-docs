@@ -81,13 +81,13 @@ If MCP-specific certificate paths are omitted, WildDuck falls back to the global
 
 ## Tokens
 
-MCP accepts only dedicated personal access tokens beginning with `wdmcp_`. API access tokens, root tokens, [application-specific passwords](/docs/security/authentication), query-string tokens and `X-Access-Token` headers are all rejected. A `wdmcp_` token is a bearer credential at both the MCP listener and the API, and both read the `Authorization` header the same way, so the scheme is required. The API refuses a `wdmcp_` value that arrives in a query string or an `X-Access-Token` header, even when the same token is also presented correctly, because a credential in a URL is copied into proxy logs, browser history and referrer headers. Send the token as an HTTP bearer credential:
+MCP accepts only dedicated credentials beginning with `wdmcp_`, either persistent personal access tokens or expiring login sessions. API access tokens, root tokens, [application-specific passwords](/docs/security/authentication), query-string tokens and `X-Access-Token` headers are all rejected. A `wdmcp_` token is a bearer credential at both the MCP listener and the API, and both read the `Authorization` header the same way, so the scheme is required. The API refuses a `wdmcp_` value that arrives in a query string or an `X-Access-Token` header, even when the same token is also presented correctly, because a credential in a URL is copied into proxy logs, browser history and referrer headers. Send the token as an HTTP bearer credential:
 
 ```text
 Authorization: Bearer wdmcp_1...
 ```
 
-### Format
+### Personal token format
 
 A token is a fixed-length string: the `wdmcp_` prefix, a format version digit, 32 random bytes as lowercase hex, and a CRC32 checksum over the version and secret.
 
@@ -135,6 +135,33 @@ The REST endpoints are:
 The `create` command and the `POST` endpoint return the plaintext token once. Save it immediately; later list responses contain metadata only. Revocation takes the record ID, not the token value.
 
 Users may manage their own tokens. Root, manager and webmail roles may manage tokens for any user. The `mcp:read` role itself has no grant here, so an MCP token can never mint another MCP token.
+
+### User-created personal tokens
+
+Users can create, list, and revoke their own persistent MCP personal tokens through the REST API. Authenticate these requests with the user's API access token. The `user` role grants these operations for the user's own account; an MCP token cannot create more tokens.
+
+| Operation | Endpoint |
+|-----------|----------|
+| Create a key | `POST /users/:user/mcp-tokens` |
+| List key metadata | `GET /users/:user/mcp-tokens` |
+| Revoke a key | `DELETE /users/:user/mcp-tokens/:token` |
+
+For example, replace `USER_ID` with the authenticated user's ID:
+
+```bash
+curl --fail-with-body -sS -X POST http://127.0.0.1:8080/users/USER_ID/mcp-tokens \
+  -H "X-Access-Token: $WILDDUCK_USER_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{"description":"Mail assistant"}'
+```
+
+`description` is required. The role defaults to `mcp:read`, the only supported access level. An optional `expires` field accepts a future ISO timestamp; otherwise the key does not expire. The response includes the key's record `id` and its `wdmcp_` secret in `token`. Save the secret when creating it: listing returns metadata only. Revocation uses the record ID, not the secret.
+
+### Login sessions
+
+Interactive authentication with `scope: "mcp"` returns an expiring MCP session. A fully authenticated master API login session can obtain an independent MCP session through `POST /authenticate/mcp`. Enabled two-factor authentication must be completed first. See [Authentication](/docs/security/authentication) and the [API reference](/docs/category/wildduck-api) for the login flows.
+
+MCP sessions minted from master sessions are independent. Ending the master session does not revoke them.
 
 ### Lifecycle and revocation
 
@@ -229,8 +256,10 @@ Only failed authentications are counted, so a working client never approaches th
 
 ## Operations
 
-Prometheus metrics include MCP service state, authentication results, bounded HTTP and tool duration metrics, result counts and result-size histograms.
+[Prometheus metrics](/docs/operations/monitoring) include MCP service state, authentication results, bounded HTTP and tool duration metrics, result counts and result-size histograms.
 
 Authentication is recorded in the user's own authlog, readable at `GET /users/:user/authlog`, with the protocol set to `MCP`. The successful record is written by the MCP listener, which is the hop that sees the client address. The API re-checks the token on each request it serves for a tool but does not record a second success for it. Failures are recorded at both, and a token's last-use timestamp moves whichever listener it reached.
 
 Tool call logs contain only the token record ID, user ID, tool name, status, duration and result size. Bearer secrets, tool arguments, search terms, headers and message content are never logged.
+
+See the upstream [MCP guide](https://github.com/zone-eu/wildduck/blob/master/docs/in-depth/mcp.md) for token lifetimes, limits, and scoped-session revocation.

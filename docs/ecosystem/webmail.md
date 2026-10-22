@@ -24,6 +24,12 @@ There's a live demo at https://webmail.wildduck.email — you can register a fre
 
 - [wildduck-webmail](https://github.com/nodemailer/wildduck-webmail)
 
+## WildDuck Admin
+
+[WildDuck Admin](https://github.com/zone-eu/wildduck-admin) provides a graphical administration interface alongside WildDuck Webmail. It connects to an existing WildDuck HTTP API through a backend proxy, keeping the API token on the server. Administrator login and optional TOTP or WebAuthn are managed separately from mailbox user authentication.
+
+See the [project README](https://github.com/zone-eu/wildduck-admin#readme) for setup instructions and requirements.
+
 ## Building Your Own Webmail
 
 WildDuck's HTTP API is designed to make building webmail interfaces straightforward. Key API features for webmail development:

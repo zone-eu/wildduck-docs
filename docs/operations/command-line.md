@@ -13,8 +13,9 @@ title: Administrating WildDuck via command line
 Well, the whole idea is, we can administrate wilduck via the REST api. 
 So we are crafting http queries, and sending it via `curl`.
 
-You can save these commands to `~/.bashrc` file (which is executed if you are coming through ssh, 
-the `~/.profile` file is for interactive login).
+If API access control is enabled, add `-H "X-Access-Token: $WILDDUCK_TOKEN"` to the curl commands below.
+
+You can save these commands to `~/.bashrc`, which Bash reads for interactive non-login shells.
 Not as *aliases* (because *alias* can not have arguments), but you can save them 
 as bash *functions*, which behave exactly like *aliases* but can have arguments too.
 
@@ -65,7 +66,7 @@ but bash itself [does not make a distinction between dot and source](https://sta
 
 ## List of commands
 
-In the below examples, we are taking our commands from [wildduck API](https://docs.wildduck.email/api).
+In the below examples, we are taking our commands from [WildDuck API reference](/docs/category/wildduck-api).
 Please refer to the official api for the latest version if this guide gets old or out of sync.
 
 ### List of all users in wildduck
@@ -103,13 +104,13 @@ wduck-user() {
 
 Some mongodb foo:
 ```
-mongo
+mongosh
 > use wildduck
 > db.
 messages.
 find({'headers.value': /[姚轉]/ }).
 toArray().
-map(doc => '/users/' + doc.user.str + '/mailboxes/' + doc.mailbox.str + '/messages/' + doc.uid )
+map(doc => '/users/' + doc.user.toString() + '/mailboxes/' + doc.mailbox.toString() + '/messages/' + doc.uid )
 
 Example output:
 [

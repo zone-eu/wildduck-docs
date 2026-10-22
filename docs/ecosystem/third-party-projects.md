@@ -10,6 +10,12 @@ title: Third party projects
 
 This is an overview of any third party projects that integrate with or relate to WildDuck.
 
+## WildDuck Admin
+
+[wildduck-admin](https://github.com/zone-eu/wildduck-admin)
+
+An administration interface for WildDuck with a separate administrator login and a backend proxy that keeps the WildDuck API token on the server. It connects to an existing WildDuck HTTP API and supports TOTP and WebAuthn for administrator authentication. See the repository for installation and configuration.
+
 ## Forward Email
 
 https://forwardemail.net

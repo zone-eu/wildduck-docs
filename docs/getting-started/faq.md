@@ -24,8 +24,7 @@ Yes, historically it has [been considered a bad practice](http://www.memoryhole.
 reason. The data model of relational databases like MySQL does not work well with tree like structures (email mime tree) or large blobs (email source).
 
 Notice the word "relational"? In fact document stores like MongoDB work very well with emails. Document store is great for storing tree-like structures and
-while GridFS is not as good as "real" object storage, it is good enough for storing the raw parts of the message. Additionally there's nothing too GridFS
-specific, so (at least in theory) it could be replaced with any object store.
+attachment payloads can live in either GridFS or [S3-compatible object storage](/docs/operations/attachment-storage). MongoDB keeps the attachment catalog and reference counts for both backends.
 
 Here's a list of alternative email servers that also use a database for storing email messages:
 
@@ -36,9 +35,7 @@ Here's a list of alternative email servers that also use a database for storing 
 ## How does it work?
 
 Whenever a message is received WildDuck parses it into a tree-like structure based on the MIME tree and stores this tree to MongoDB. Attachments are removed
-from the tree and stored separately in GridFS. If a message needs to be loaded then WildDuck fetches the tree structure first and, if needed, loads
-attachments from GridFS and then compiles it back into the original RFC822 message. The result should be identical to the original messages unless the
-original message used unix newlines, these might be partially replaced with windows newlines.
+from the tree and stored separately in GridFS or S3. To retrieve a message, WildDuck loads its tree and attachment payloads and reconstructs the RFC822 bytes. Messages stored since version 1.53.0 use a versioned MIME tree that preserves the original bytes, including multipart epilogues and empty parts. Older trees retain their earlier rendering behavior. No data migration is required. See [Upgrading](/docs/operations/operating-wildduck#upgrading) for rollout order.
 
 WildDuck tries to keep minimal state for sessions (basically just a list of currently known UIDs and latest MODSEQ value) to be able to distribute sessions
 between different hosts. Whenever a mailbox is opened the entire message list is loaded as an array of UID values. The first UID in the array element points to

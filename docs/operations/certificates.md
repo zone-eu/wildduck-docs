@@ -13,15 +13,18 @@ WildDuck is able to manage SNI certificates with Let's Encrypt or any other ACME
 Requirements to use auto-renewing SNI certificates:
 
 -   SNI certificates are used by IMAP, POP3, and the WildDuck API server. External components (Haraka for inbound SMTP, ZoneMTA for outbound SMTP) manage their own certificates separately.
--   Each server that a SNI hostname resolves to must have either WildDuck API or [ACME agent](https://github.com/zone-eu/wildduck/blob/b46293aba8a112842431336f9c62557b6c66d971/config/acme.toml#L23) running on port 80
--   When using SNI you still have to set up some default certificates in the config file. These could be self-signed though as WildDuck prefers SNI certs whenever possible
--   You must register ACME SNI certificates via [/certs](https://docs.wildduck.email/api/#operation/updateTLSCertificate) API endpoint with the following configuration:
+-   HTTP-01 validation needs port 80 reachable for each hostname. The ACME agent can listen on port 80, or the WildDuck API can serve the challenge when it owns that port.
+-   Configure default TLS certificates in `config/tls.toml` and, where needed, service-specific TLS sections. WildDuck uses these when no matching SNI certificate is available.
+-   Register an ACME-managed certificate with `POST /certs`. The token needs permission to create certificates. See the current [WildDuck API reference](/docs/category/wildduck-api).
 
-```js
-curl -XPOST http://localhost:8080/certs -H 'content-type:application/json' -d'{
+```bash
+curl --fail-with-body -sS -X POST http://localhost:8080/certs \
+  -H 'content-type: application/json' \
+  -H "X-Access-Token: $WILDDUCK_TOKEN" \
+  -d '{
     "servername": "imap.example.com",
     "acme": true
-}'
+  }'
 ```
 
-> The example above expects WildDuck ACME agent running on port 80 in every IP address that _imap.example.com_ resolves to
+If WildDuck API does not listen on port 80, enable the ACME agent in `config/acme.toml` and expose its configured port. Each IP address returned for the hostname must be able to answer the HTTP-01 challenge.

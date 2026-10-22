@@ -15,6 +15,8 @@ WildDuck is part of the Zone Mail Suite — a collection of components that toge
 | Component | Role | Default Port |
 |-----------|------|-------------|
 | **WildDuck** | IMAP/POP3 server + HTTP API | IMAP: 9993, POP3: 9995, API: 8080 |
+| **WildDuck MCP** (optional) | Read-only mail access for MCP clients | 8082 |
+| **WildDuck metrics** (optional) | Prometheus monitoring | 8081 |
 | **Haraka** + haraka-plugin-wildduck | Inbound SMTP (receiving mail) | 25 |
 | **ZoneMTA** + zonemta-wildduck | Outbound SMTP (sending mail) | 587 |
 | **Rspamd** | Spam filtering | 11333 |
@@ -37,7 +39,7 @@ haraka-plugin-wildduck
   ├── Checks user quota
   ├── Applies SPF/DKIM/DMARC/ARC verification
   ├── Applies message filters (forward, autoreply, etc.)
-  └── Stores message in MongoDB
+  └── Stores message in MongoDB, attachment payloads in GridFS or S3
   ↓
 Redis pub/sub notification
   ↓
@@ -67,7 +69,7 @@ Messages can also be submitted via the WildDuck HTTP API (`POST /users/:user/sub
 
 ## No Single Point of Failure
 
-Every component in the Zone Mail Suite is stateless and horizontally scalable:
+The mail suite can be deployed without a single point of failure by replicating its application services and storage:
 
 - **WildDuck**: Run multiple instances behind a TCP load balancer (e.g., HAProxy). Users can connect to any instance.
 - **Haraka**: Run multiple MX servers. DNS MX records handle distribution.
@@ -77,13 +79,13 @@ Every component in the Zone Mail Suite is stateless and horizontally scalable:
 
 ## Storage Architecture
 
-All data is stored in MongoDB:
+MongoDB stores the persistent account and message model:
 
 - **Messages**: Parsed into MIME tree structure, stored in the `messages` collection
-- **Attachments**: Deduplicated by content hash, stored in GridFS (configurable via `dbs.gridfs`)
+- **Attachments**: Deduplicated by content hash, with a MongoDB catalog and payloads in GridFS or optional [S3 storage](/docs/operations/attachment-storage)
 - **User data**: Accounts, addresses, mailboxes, filters, settings in the main `wildduck` database
 
-For performance tuning, WildDuck uses a separate database for attachments. This allows mounting a larger, cheaper disk (SATA) for attachment storage while keeping message metadata and indexes on faster storage (SSD).
+The GridFS database can be configured separately through `dbs.gridfs`, allowing message metadata and attachment payloads to use different storage resources. S3 and GridFS payloads can coexist. Draft uploads and audit copies continue to use GridFS.
 
 ## Redis Usage
 
@@ -103,4 +105,4 @@ Redis serves several purposes in the mail suite:
 - [haraka-plugin-wildduck](https://github.com/zone-eu/haraka-plugin-wildduck) — Haraka plugin for WildDuck integration
 - [ZoneMTA](https://github.com/zone-eu/zone-mta) — Outbound SMTP relay
 - [zonemta-wildduck](https://github.com/zone-eu/zonemta-wildduck) — ZoneMTA plugin for WildDuck integration
-- [wildduck-dockerized](https://github.com/zone-eu/wildduck-dockerized) — Docker Compose setup for the full suite
+- [wildduck-dockerized](https://github.com/nodemailer/wildduck-dockerized) — Docker Compose setup for the full suite

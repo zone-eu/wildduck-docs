@@ -12,7 +12,7 @@ WildDuck uses [wild-config](https://github.com/zone-eu/wild-config) for TOML-bas
 
 ## Configuration Files
 
-The configuration is split across several TOML files in the `config/` directory:
+The main configuration is `config/default.toml`. It includes service and feature settings from these files:
 
 | File | Purpose |
 |------|---------|
@@ -20,15 +20,19 @@ The configuration is split across several TOML files in the `config/` directory:
 | `dbs.toml` | MongoDB and Redis connection settings |
 | `imap.toml` | IMAP server settings (port, host, TLS) |
 | `pop3.toml` | POP3 server settings |
+| `lmtp.toml` | LMTP server settings |
 | `api.toml` | HTTP API server settings |
 | `tls.toml` | TLS certificate paths and options |
 | `dkim.toml` | DKIM signing settings |
 | `acme.toml` | ACME/Let's Encrypt settings |
 | `sender.toml` | Outgoing mail (submission) settings |
 | `attachments.toml` | Attachment storage settings |
+| `metrics.toml` | Prometheus metrics listener settings |
+| `mcp.toml` | Read-only MCP service settings |
+| `migrations.toml` | Database and user migration settings |
 | `plugins.toml` | Plugin system configuration |
 
-The main `default.toml` uses `@include` directives to pull in the other files.
+The main `default.toml` uses `@include` directives to pull in the other files. Configuration is loaded through `@zone-eu/wild-config`. Use its documented environment overrides or a deployment-specific config rather than replacing only one included file.
 
 ## Custom Configuration
 
@@ -38,7 +42,7 @@ To override default settings, create a custom config file and pass it at startup
 node server.js --config=/etc/wildduck.toml
 ```
 
-The custom config is **merged** with the defaults — you only need to specify values you want to change.
+The custom config is merged with the defaults — you only need to specify values you want to change. The image's entry point explicitly loads `/wildduck/config/default.toml`. Mount a replacement config directory there when running the Docker image.
 
 ## Key Configuration Sections
 
@@ -60,7 +64,7 @@ mongo = "mongodb://127.0.0.1:27017/wildduck"
 # Redis connection URL
 redis = "redis://127.0.0.1:6379/3"
 
-# Separate database for attachments (recommended for disk separation)
+# Optional separate MongoDB connection for GridFS storage
 #[dbs.gridfs]
 #mongo = "mongodb://127.0.0.1:27017/attachments"
 ```
@@ -99,12 +103,24 @@ graylogPort = 12201
 graylogHostname = "127.0.0.1"
 ```
 
+### Attachments (`[attachments]`)
+
+`config/attachments.toml` selects GridFS or S3 for newly stored attachment hashes. Existing attachment records determine where their data is read. See [Attachment Storage](/docs/operations/attachment-storage) before enabling S3.
+
+### Metrics (`[metrics]`)
+
+Prometheus listener settings live in `config/metrics.toml` under top-level `[metrics]`. See [Monitoring](/docs/operations/monitoring).
+
 ### Webhooks (`[webhooks]`)
 
 ```toml
 [webhooks]
 enabled = true   # at least one server must have this enabled
 ```
+
+### MCP (`[mcp]`)
+
+The read-only MCP service is configured separately in `config/mcp.toml` and is disabled by default. See [Read-only MCP Service](/docs/security/mcp) for credentials, deployment, and client access.
 
 ### Full-Text Search (`[elasticsearch]`)
 
@@ -152,8 +168,11 @@ port = 9993            # IMAP port (use 993 for production)
 host = "0.0.0.0"      # bind address
 secure = true          # use TLS (true for implicit TLS, false for STARTTLS)
 maxMB = 25             # max message size for APPEND (MB)
-retention = 30         # days to keep messages in Trash/Junk before auto-deletion
 maxConnections = 15    # max concurrent connections per user
+socketTimeout = 1837000    # authenticated inactivity timeout (ms)
+preAuthSocketTimeout = 337000 # pre-authentication timeout (ms)
+maxLineLength = 16384  # command line bytes, excluding literals
+maxLiterals = 1000     # literal segments per command
 enableCompression = false  # advertise COMPRESS=DEFLATE
 useProxy = false       # expect HAProxy PROXY header
 
@@ -161,6 +180,8 @@ useProxy = false       # expect HAProxy PROXY header
 hostname = "localhost" # public IMAP hostname (for client config)
 secure = true
 ```
+
+Configure mailbox retention through the user and mailbox APIs. See [Retention Policies](/docs/operations/retention-policies) for units and effects on existing messages.
 
 ### POP3 Service (`[pop3]`)
 

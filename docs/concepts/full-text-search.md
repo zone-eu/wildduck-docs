@@ -11,14 +11,13 @@ title: Full-Text Search
 This feature is experimental and subject to change. The API, configuration, and behavior may change in future releases without notice.
 :::
 
-WildDuck optionally supports [OpenSearch](https://opensearch.org/) (or ElasticSearch) as a full-text search backend for message content. When enabled, it provides faster and more capable search than MongoDB's built-in text indexes.
+WildDuck includes experimental OpenSearch indexing for message content. The configuration key remains `[elasticsearch]`, and the implementation uses the OpenSearch client. REST and IMAP message searches currently use MongoDB; the REST OpenSearch query path is not enabled.
 
 ## How It Works
 
 - New messages are indexed in real-time via MongoDB change streams (the `indexer.js` worker watches the `journal` collection)
 - Historical messages can be bulk-indexed using the `user-indexing` background task
-- Search queries use OpenSearch instead of MongoDB text indexes
-- The feature is gated per-user via a Redis set (`feature:indexing`)
+- Live indexing is enabled per user via a Redis set (`feature:indexing`), or globally with `enabledFeatureFlags.indexer`
 
 ## Configuration
 
@@ -40,9 +39,11 @@ At least one WildDuck instance must have `elasticsearch.indexer.enabled = true` 
 
 ## Requirements
 
-- An OpenSearch (or ElasticSearch) cluster accessible from WildDuck instances
+- An OpenSearch-compatible cluster accessible from WildDuck instances
 - The indexing worker enabled on at least one instance
-- Users must be added to the `feature:indexing` Redis set to enable search for their accounts
+- Users must be added to the `feature:indexing` Redis set for historical indexing; `enabledFeatureFlags.indexer` can enable live indexing globally
+
+Enabling indexing does not switch message searches to OpenSearch.
 
 ## Background Tasks
 
